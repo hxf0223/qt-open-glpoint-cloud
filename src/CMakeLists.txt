@@ -20,7 +20,7 @@ list(APPEND SRCS ${mainSRCS} ${openglSRCS} ${csvrSRCS})
 set(target_name cloud_viewer)
 add_executable(${target_name} ${SRCS} frmmain.ui ${qrc_FILES})
 
-set_target_properties(${target_name} PROPERTIES DEBUG_POSTFIX "_d")
+# set_target_properties(${target_name} PROPERTIES DEBUG_POSTFIX "_d")
 target_link_libraries(${target_name} PRIVATE Qt5::Core Qt5::Widgets Qt5::OpenGL)
 target_link_libraries(${target_name} PRIVATE TBB::tbb ${Boost_LIBRARIES})
 
