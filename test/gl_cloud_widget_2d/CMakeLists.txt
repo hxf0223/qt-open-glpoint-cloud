@@ -5,7 +5,11 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-file(GLOB SRCS *.cc)
+include_directories(gl_cloud_widget_2d)
+
+file(GLOB glcwSRCS gl_cloud_widget_2d/*.cc)
+file(GLOB mainSRCS *.cc)
+list(APPEND SRCS ${mainSRCS} ${glcwSRCS})
 
 set(target_name gldraw_points_2d)
 add_executable(${target_name} ${SRCS})
