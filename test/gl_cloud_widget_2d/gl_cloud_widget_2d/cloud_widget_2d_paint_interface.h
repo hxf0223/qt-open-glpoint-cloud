@@ -20,10 +20,10 @@ class CloudWidget2DPaintInterface {
 
  public:
   virtual void setColorIdx(size_t idx) { clr_idx_ = idx; }
-  virtual void setRange(std::shared_ptr<gl_cw_rng_xyd> rng) { rng_ = rng; }
+  virtual void setRange(gl_cw_rng_xyd rng) { rng_ = rng; }
 
  protected:
-  std::shared_ptr<gl_cw_rng_xyd> rng_{};
+  gl_cw_rng_xyd rng_{};
   size_t clr_idx_{};
 
  protected:

@@ -14,11 +14,30 @@ GLCloudWidget2D::GLCloudWidget2D(QWidget* parent) : QOpenGLWidget(parent) {
 
   background_ = QBrush(QColor(0, 0, 0));
 }
+GLCloudWidget2D::~GLCloudWidget2D() {
+  for (auto& p : paints_) {
+    delete p;
+  }
+}
 
 void GLCloudWidget2D::setBackColor(QColor color) {
   background_ = QBrush(color);
 }
-void GLCloudWidget2D::addPaint(std::shared_ptr<CloudWidget2DPaintInterface> paint) {
+const QList<QColor>& GLCloudWidget2D::colors() const {
+  return colors_;
+}
+QList<QColor>& GLCloudWidget2D::colors() {
+  return colors_;
+}
+
+void GLCloudWidget2D::setRightToLeft(bool value) {
+  right_to_left_ = value;
+}
+void GLCloudWidget2D::setBottomToTop(bool value) {
+  bottom_to_top_ = value;
+}
+
+void GLCloudWidget2D::addPaint(CloudWidget2DPaintInterface* paint) {
   paints_.push_back(paint);
 }
 void GLCloudWidget2D::animate() {

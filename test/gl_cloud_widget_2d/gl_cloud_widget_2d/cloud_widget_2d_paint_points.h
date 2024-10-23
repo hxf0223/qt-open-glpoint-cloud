@@ -2,6 +2,9 @@
 
 #include <vector>
 
+#include <QPointF>
+#include <QRect>
+
 #include "cloud_widget_2d_paint_interface.h"
 #include "point_typedef.h"
 
@@ -18,8 +21,13 @@ class CloudWidget2DPaintPoints : public CloudWidget2DPaintInterface {
   void paint(QPainter* painter, QPaintEvent* event) override;
 
  protected:
+  void update_phy_points(const QRect& rect);
+
+ protected:
   double pt_phy_size_{1.0};
   std::vector<point_double_t> pts_;
+  std::vector<QPointF> phy_pts_;
+  std::vector<double> phy_xs_, phy_ys_;
 };
 
 }  // namespace test::gl_painter
