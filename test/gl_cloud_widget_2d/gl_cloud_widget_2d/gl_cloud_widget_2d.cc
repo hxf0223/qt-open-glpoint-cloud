@@ -45,8 +45,8 @@ void GLCloudWidget2D::animate() {
 }
 
 void GLCloudWidget2D::paintEvent(QPaintEvent* event) {
-  const auto r = event->rect();
-  qDebug() << "paintEvent: " << r;
+  // const auto r = event->rect();
+  // qDebug() << "paintEvent: " << r;
 
   QPainter painter;
   painter.begin(this);

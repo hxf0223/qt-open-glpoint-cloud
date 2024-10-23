@@ -30,7 +30,7 @@ MainWindow::MainWindow() {
 
   QTimer* timer = new QTimer(this);
   connect(timer, &QTimer::timeout, glcw_2d_, &GLCloudWidget2D::animate);
-  timer->start(200);
+  timer->start(30);
 }
 
 void MainWindow::init_points() {
