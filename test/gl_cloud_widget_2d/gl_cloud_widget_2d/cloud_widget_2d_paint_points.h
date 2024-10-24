@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include <QPoint>
 #include <QPointF>
 #include <QRect>
 
@@ -20,7 +21,14 @@ class CloudWidget2DPaintPoints : public CloudWidget2DPaintInterface {
 
   void paint(QPainter* painter, QPaintEvent* event) override;
 
+ public:
+  using CloudWidget2DPaintInterface::mouse_trace_t;
+  mouse_trace_t mouseTrace(const QPoint& pos) override;
+
  protected:
+  void process_widget_resize(QSize size) override;
+
+  QPointF widget_pt_to_logic_pt(const QPoint& pt) const;
   void update_phy_points(const QRect& rect);
 
  protected:

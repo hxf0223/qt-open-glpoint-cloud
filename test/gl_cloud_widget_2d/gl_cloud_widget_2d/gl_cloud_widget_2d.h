@@ -2,6 +2,7 @@
 
 // #include <memory>
 #include <qlist.h>
+#include <qsize.h>
 #include <vector>
 
 #include <QBrush>
@@ -37,6 +38,13 @@ class GLCloudWidget2D : public QOpenGLWidget {
 
  protected:
   void paintEvent(QPaintEvent* event) override;
+  void mousePressEvent(QMouseEvent* event) override;
+  void mouseMoveEvent(QMouseEvent* event) override;
+  void resizeEvent(QResizeEvent* event) override;
+
+ signals:
+  void signalPaintHit(int pid, int eid, double x, double y);
+  void signalSizeChanged(QSize);
 
  protected:
   QList<CloudWidget2DPaintInterface*> paints_;

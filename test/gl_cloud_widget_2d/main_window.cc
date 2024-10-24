@@ -18,7 +18,8 @@ MainWindow::MainWindow() {
   glcw_2d_->setRightToLeft(true);
 
   paint_points_ = new CloudWidget2DPaintPoints(glcw_2d_);
-  paint_points_->setPhyPointSize(3.0);
+  paint_points_->setEnableMouseTrace(true);
+  paint_points_->setPhyPointSize(4.0);
   paint_points_->setColorIdx(0);
   init_points();
 

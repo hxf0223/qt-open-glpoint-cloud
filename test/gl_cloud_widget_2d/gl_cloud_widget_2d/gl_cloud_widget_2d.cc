@@ -3,6 +3,9 @@
 #include <QPainter>
 #include <QTimer>
 
+// #include "spdlog/spdlog.h"
+
+#include <qglobal.h>
 #include "cloud_widget_2d_paint_interface.h"
 #include "gl_cloud_widget_2d.h"
 
@@ -11,6 +14,7 @@ namespace test::gl_painter {
 GLCloudWidget2D::GLCloudWidget2D(QWidget* parent) : QOpenGLWidget(parent) {
   setMinimumSize(640, 480);
   setAutoFillBackground(false);
+  setMouseTracking(true);
 
   background_ = QBrush(QColor(0, 0, 0));
 }
@@ -38,6 +42,7 @@ void GLCloudWidget2D::setBottomToTop(bool value) {
 }
 
 void GLCloudWidget2D::addPaint(CloudWidget2DPaintInterface* paint) {
+  connect(this, &GLCloudWidget2D::signalSizeChanged, paint, &CloudWidget2DPaintInterface::onWidgetResized);
   paints_.push_back(paint);
 }
 void GLCloudWidget2D::animate() {
@@ -59,6 +64,31 @@ void GLCloudWidget2D::paintEvent(QPaintEvent* event) {
   }
 
   painter.end();
+}
+
+void GLCloudWidget2D::mousePressEvent(QMouseEvent* event) {
+  const auto pos = event->pos();
+  qDebug() << "mousePressEvent: " << pos;
+}
+
+void GLCloudWidget2D::mouseMoveEvent(QMouseEvent* event) {
+  const auto pos = event->pos();
+  // qDebug() << "mouseMoveEvent: " << pos;
+
+  for (int i = 0; i < paints_.size(); i++) {
+    if (!paints_[i]->isMouseTraceEnabled()) continue;
+    const auto mt = paints_[i]->mouseTrace(pos);
+    if (mt.flag_) {
+      signalPaintHit(i, (int)(mt.eid_), mt.x_, mt.y_);
+      break;
+    }
+  }
+}
+
+void GLCloudWidget2D::resizeEvent(QResizeEvent* event) {
+  const auto size = event->size();
+  QOpenGLWidget::resizeEvent(event);
+  emit signalSizeChanged(size);
 }
 
 }  // namespace test::gl_painter
