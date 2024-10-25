@@ -3,10 +3,11 @@
 #include <QPoint>
 
 #include "cloud_widget_2d_paint_interface.h"
+#include "gl_widget_2d_exp_def.h"
 
 namespace test::gl_painter {
 
-class CloudWidget2DPaintDash : public CloudWidget2DPaintInterface {
+class GL_WIDGET_2D_API CloudWidget2DPaintDash : public CloudWidget2DPaintInterface {
   using CloudWidget2DPaintInterface::mouse_trace_t;
 
  public:

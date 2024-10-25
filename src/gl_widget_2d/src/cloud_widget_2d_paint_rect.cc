@@ -6,11 +6,8 @@
 
 #include "3rd_utils.h"
 
-#include <qfontmetrics.h>
-#include <qnamespace.h>
-#include <qpoint.h>
-#include "cloud_widget_2d_paint_rect.h"
-#include "gl_cloud_widget_2d.h"
+#include "gl_widget_2d/cloud_widget_2d_paint_rect.h"
+#include "gl_widget_2d/gl_cloud_widget_2d.h"
 
 namespace test::gl_painter {
 

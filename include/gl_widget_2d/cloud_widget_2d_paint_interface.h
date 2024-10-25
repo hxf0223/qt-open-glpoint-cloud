@@ -1,12 +1,8 @@
 #pragma once
 
-#include <qobject.h>
-#include <qobjectdefs.h>
-#include <qsize.h>
-#include <tuple>
-
 #include <QObject>
 #include <QPoint>
+#include <QSize>
 
 #include "gl_cloud_widget_rng.h"
 

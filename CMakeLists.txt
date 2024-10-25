@@ -128,6 +128,7 @@ endif()
 add_definitions(-DQT_MESSAGELOGCONTEXT)
 
 include_directories(system ${PROJECT_SOURCE_DIR}/3rd/include)
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
 add_subdirectory(src)
 add_subdirectory(test)

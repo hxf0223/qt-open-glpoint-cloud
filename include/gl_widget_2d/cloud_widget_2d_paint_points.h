@@ -7,6 +7,7 @@
 #include <QRect>
 
 #include "cloud_widget_2d_paint_interface.h"
+#include "gl_widget_2d_exp_def.h"
 #include "point_typedef.h"
 
 namespace test::gl_painter {
@@ -25,7 +26,7 @@ struct point_adapter_t {
   const size_t size_;
 };
 
-class CloudWidget2DPaintPoints : public CloudWidget2DPaintInterface {
+class GL_WIDGET_2D_API CloudWidget2DPaintPoints : public CloudWidget2DPaintInterface {
  public:
   CloudWidget2DPaintPoints(GLCloudWidget2D* widget);
   ~CloudWidget2DPaintPoints() override = default;

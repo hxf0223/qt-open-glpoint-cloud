@@ -17,7 +17,7 @@ file(GLOB openglSRCS ${CMAKE_CURRENT_SOURCE_DIR}/opengl/*.cc)
 file(GLOB csvrSRCS csv_reader/*.cc)
 list(APPEND SRCS ${mainSRCS} ${openglSRCS} ${csvrSRCS})
 
-set(target_name cloud_viewer)
+set(target_name gl_cloud_viewer_3d)
 add_executable(${target_name} ${SRCS} frmmain.ui ${qrc_FILES})
 
 # set_target_properties(${target_name} PROPERTIES DEBUG_POSTFIX "_d")

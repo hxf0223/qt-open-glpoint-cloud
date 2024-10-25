@@ -3,12 +3,10 @@
 #include <QGridLayout>
 #include <QTimer>
 
-#include "cloud_widget_2d_paint_dash.h"
-#include "cloud_widget_2d_paint_points.h"
-#include "cloud_widget_2d_paint_rect.h"
-
-#include "gl_cloud_widget_2d.h"
-#include "gl_cloud_widget_2d/point_typedef.h"
+#include "gl_widget_2d/cloud_widget_2d_paint_dash.h"
+#include "gl_widget_2d/cloud_widget_2d_paint_points.h"
+#include "gl_widget_2d/cloud_widget_2d_paint_rect.h"
+#include "gl_widget_2d/gl_cloud_widget_2d.h"
 
 #include "main_window.h"
 

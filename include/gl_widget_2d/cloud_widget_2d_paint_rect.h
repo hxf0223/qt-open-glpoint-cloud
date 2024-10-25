@@ -8,6 +8,7 @@
 #include <QRect>
 
 #include "cloud_widget_2d_paint_interface.h"
+#include "gl_widget_2d_exp_def.h"
 #include "point_typedef.h"
 
 namespace test::gl_painter {
@@ -17,7 +18,7 @@ struct paint_rect_data_t {
   QString label_;
 };
 
-class CloudWidget2DPaintRect : public CloudWidget2DPaintInterface {
+class GL_WIDGET_2D_API CloudWidget2DPaintRect : public CloudWidget2DPaintInterface {
  public:
   CloudWidget2DPaintRect(GLCloudWidget2D* widget);
   ~CloudWidget2DPaintRect() override = default;
