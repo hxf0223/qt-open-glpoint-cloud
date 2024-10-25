@@ -11,6 +11,20 @@
 
 namespace test::gl_painter {
 
+template <typename T, typename ET = double>
+struct point_adapter_t {
+  point_adapter_t(T* const ptr, size_t size) : ptr_(ptr), size_(size) {}
+  point_t<ET> operator[](size_t i) const {
+    const ET x = ptr_[i].getX();
+    const ET y = ptr_[i].getY();
+    return point_t<ET>{x, y};
+  }
+
+ private:
+  T* const ptr_;
+  const size_t size_;
+};
+
 class CloudWidget2DPaintPoints : public CloudWidget2DPaintInterface {
  public:
   CloudWidget2DPaintPoints(GLCloudWidget2D* widget);

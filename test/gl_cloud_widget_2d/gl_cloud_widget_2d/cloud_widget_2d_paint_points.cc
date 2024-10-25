@@ -5,9 +5,6 @@
 
 #include "3rd_utils.h"
 
-#include <qdebug.h>
-#include <qglobal.h>
-#include <qregion.h>
 #include "cloud_widget_2d_paint_points.h"
 #include "gl_cloud_widget_2d.h"
 
@@ -28,12 +25,9 @@ void CloudWidget2DPaintPoints::setPhyPointSize(double size) {
   pt_phy_size_ = size;
 }
 
-void CloudWidget2DPaintPoints::paint(QPainter* painter, QPaintEvent* event) {
+void CloudWidget2DPaintPoints::paint(QPainter* painter, QPaintEvent* /*event*/) {
   if (pts_.empty() || !widget_) return;
   if ((int)(clr_idx_) >= widget_->colors_.size()) return;
-
-  Q_UNUSED(event);
-  //update_phy_points(event->rect());
 
   const auto& clr = widget_->colors_.at((int)clr_idx_);
   QPen pen(clr, pt_phy_size_, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);

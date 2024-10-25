@@ -17,10 +17,15 @@ namespace test::gl_painter {
 
 class CloudWidget2DPaintInterface;
 class CloudWidget2DPaintDash;
+class CloudWidget2DPaintRect;
+class CloudWidget2DPaintHorizontalDashLine;
 
 class GLCloudWidget2D : public QOpenGLWidget {
+  friend class CloudWidget2DPaintHorizontalDashLine;
   friend class CloudWidget2DPaintPoints;
   friend class CloudWidget2DPaintDash;
+  friend class CloudWidget2DPaintRect;
+
   Q_OBJECT
 
  public:

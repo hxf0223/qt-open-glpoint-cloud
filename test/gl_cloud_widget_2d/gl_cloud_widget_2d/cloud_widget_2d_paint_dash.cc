@@ -14,10 +14,9 @@ namespace test::gl_painter {
 
 CloudWidget2DPaintDash::CloudWidget2DPaintDash(GLCloudWidget2D* widget) : CloudWidget2DPaintInterface(widget) {}
 
-void CloudWidget2DPaintDash::paint(QPainter* painter, QPaintEvent* event) {
+void CloudWidget2DPaintDash::paint(QPainter* painter, QPaintEvent*) {
   if (!widget_) return;
   if ((int)(clr_idx_) >= widget_->colors_.size()) return;
-  Q_UNUSED(event);
 
   const auto& clr = widget_->colors_.at((int)clr_idx_);
   QPen pen(clr, 2, Qt::DashDotDotLine, Qt::RoundCap, Qt::RoundJoin);
@@ -57,6 +56,10 @@ void CloudWidget2DPaintHorizontalDashLine::update_phy_points(const QRect& rect) 
   const auto lg_height = lg_maxy - lg_miny;
 
   phy_y_ = (lg_y_ - lg_miny) / lg_height * phy_height + phy_miny;
+  if (widget_->bottom_to_top_) {
+    phy_y_ = phy_height - phy_y_;
+  }
+
   start_pt_ = QPoint(0, phy_y_);
   end_pt_ = QPoint(rect.width(), phy_y_);
 }

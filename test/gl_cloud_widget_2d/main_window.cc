@@ -5,8 +5,10 @@
 
 #include "cloud_widget_2d_paint_dash.h"
 #include "cloud_widget_2d_paint_points.h"
+#include "cloud_widget_2d_paint_rect.h"
 
 #include "gl_cloud_widget_2d.h"
+#include "gl_cloud_widget_2d/point_typedef.h"
 
 #include "main_window.h"
 
@@ -28,8 +30,12 @@ MainWindow::MainWindow() {
     paint_dash_line_ = new CloudWidget2DPaintHorizontalDashLine(glcw_2d_);
     paint_dash_line_->setColorIdx(1);
 
+    paint_rect_ = new CloudWidget2DPaintRect(glcw_2d_);
+    paint_rect_->setColorIdx(2);
+
     glcw_2d_->addPaint(paint_points_);
     glcw_2d_->addPaint(paint_dash_line_);
+    glcw_2d_->addPaint(paint_rect_);
 
     init_points();
   }
@@ -44,9 +50,14 @@ MainWindow::MainWindow() {
 }
 
 void MainWindow::init_points() {
-  std::vector<point_double_t> points;
-  for (int i = 0; i < 100; i++) {
-    points.emplace_back(point_double_t{i * 4.0, i * 4.0});
+  constexpr size_t kNumPoints = 20;
+  std::vector<point_double_t> points(kNumPoints);
+  std::vector<paint_rect_data_t> rects(kNumPoints);
+  for (size_t i = 0; i < kNumPoints; i++) {
+    const point_double_t cp{i * 4.0, i * 4.0};
+    rects[i].rect = rect_double_t{cp - 3.0, cp + 3.0};
+    rects[i].label_ = tr("测试 ").append(QString::number(i));
+    points[i] = cp;
   }
 
   const auto predx = [](const point_double_t& p1, const point_double_t& p2) { return p1.x_ < p2.x_; };
@@ -61,5 +72,8 @@ void MainWindow::init_points() {
   paint_points_->setData(points);
 
   paint_dash_line_->setRange(rng);
-  paint_dash_line_->setY((rng_miny + rng_maxy) / 2);
+  paint_dash_line_->setY((rng_miny + rng_maxy) / 3);
+
+  paint_rect_->setRange(rng);
+  paint_rect_->setData(rects);
 }
