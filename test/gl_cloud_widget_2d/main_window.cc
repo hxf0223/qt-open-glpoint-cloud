@@ -3,7 +3,9 @@
 #include <QGridLayout>
 #include <QTimer>
 
+#include "cloud_widget_2d_paint_dash.h"
 #include "cloud_widget_2d_paint_points.h"
+
 #include "gl_cloud_widget_2d.h"
 
 #include "main_window.h"
@@ -17,13 +19,20 @@ MainWindow::MainWindow() {
   glcw_2d_->colors() << QColor(255, 0, 0) << QColor(0, 255, 0) << QColor(0, 0, 255) << QColor(255, 255, 0) << QColor(255, 0, 255);
   glcw_2d_->setRightToLeft(true);
 
-  paint_points_ = new CloudWidget2DPaintPoints(glcw_2d_);
-  paint_points_->setEnableMouseTrace(true);
-  paint_points_->setPhyPointSize(4.0);
-  paint_points_->setColorIdx(0);
-  init_points();
+  {
+    paint_points_ = new CloudWidget2DPaintPoints(glcw_2d_);
+    paint_points_->setEnableMouseTrace(true);
+    paint_points_->setPhyPointSize(4.0);
+    paint_points_->setColorIdx(0);
 
-  glcw_2d_->addPaint(paint_points_);
+    paint_dash_line_ = new CloudWidget2DPaintHorizontalDashLine(glcw_2d_);
+    paint_dash_line_->setColorIdx(1);
+
+    glcw_2d_->addPaint(paint_points_);
+    glcw_2d_->addPaint(paint_dash_line_);
+
+    init_points();
+  }
 
   auto* layout = new QGridLayout;
   layout->addWidget(glcw_2d_, 0, 0);
@@ -50,4 +59,7 @@ void MainWindow::init_points() {
   gl_cw_rng_xyd rng{{{rng_minx, -1.0}, {rng_maxx, 1.0}}, {{rng_miny, -1.0}, {rng_maxy, -1.0}}};
   paint_points_->setRange(rng);
   paint_points_->setData(points);
+
+  paint_dash_line_->setRange(rng);
+  paint_dash_line_->setY((rng_miny + rng_maxy) / 2);
 }

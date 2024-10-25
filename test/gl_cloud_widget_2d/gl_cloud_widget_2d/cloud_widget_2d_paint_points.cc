@@ -60,6 +60,7 @@ QPointF CloudWidget2DPaintPoints::widget_pt_to_logic_pt(const QPoint& pt) const 
     return logic_pt;
   }
 
+  CHECK2(widget_, "widget_ is nullptr");
   const auto right_to_left = widget_->right_to_left_;
   const auto bottom_to_top = widget_->bottom_to_top_;
   const double phy_x = right_to_left ? phy_rect.width() - pt.x() : pt.x();

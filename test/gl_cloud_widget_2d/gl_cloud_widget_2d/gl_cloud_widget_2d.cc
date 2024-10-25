@@ -5,8 +5,8 @@
 
 // #include "spdlog/spdlog.h"
 
-#include <qglobal.h>
 #include "cloud_widget_2d_paint_interface.h"
+
 #include "gl_cloud_widget_2d.h"
 
 namespace test::gl_painter {
