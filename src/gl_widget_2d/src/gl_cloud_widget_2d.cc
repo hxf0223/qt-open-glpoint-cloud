@@ -13,7 +13,7 @@ GLCloudWidget2D::GLCloudWidget2D(QWidget* parent) : QOpenGLWidget(parent) {
   setAutoFillBackground(false);
   setMouseTracking(true);
 
-  background_ = QBrush(QColor(0, 0, 0));
+  brsh_background_ = QBrush(QColor(0, 0, 0));
 }
 GLCloudWidget2D::~GLCloudWidget2D() {
   for (auto& p : paints_) {
@@ -22,7 +22,7 @@ GLCloudWidget2D::~GLCloudWidget2D() {
 }
 
 void GLCloudWidget2D::setBackColor(QColor color) {
-  background_ = QBrush(color);
+  brsh_background_ = QBrush(color);
 }
 const QList<QColor>& GLCloudWidget2D::colors() const {
   return colors_;
@@ -54,7 +54,7 @@ void GLCloudWidget2D::paintEvent(QPaintEvent* event) {
   painter.begin(this);
   painter.setRenderHint(QPainter::Antialiasing);
 
-  painter.fillRect(event->rect(), background_);
+  painter.fillRect(event->rect(), brsh_background_);
 
   for (auto& p : paints_) {
     p->paint(&painter, event);

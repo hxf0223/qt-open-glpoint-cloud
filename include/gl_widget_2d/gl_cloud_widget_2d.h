@@ -61,7 +61,7 @@ class GL_WIDGET_2D_API GLCloudWidget2D : public QOpenGLWidget {
   bool right_to_left_{false}, bottom_to_top_{false};
 
  protected:
-  QBrush background_;
+  QBrush brsh_background_;
 };
 
 }  // namespace test::gl_painter
