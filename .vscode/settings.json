@@ -1,0 +1,66 @@
+{
+    "terminal.integrated.env.linux": {
+        "PYTHONPATH": "${workspaceFolder}/python;${env:PYTHONPATH}"
+    },
+    "python.envFile": "${workspaceFolder}/.env",
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/python"
+    ],
+    "[python]": {
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+        "editor.formatOnSaveMode": "file",
+        "editor.formatOnSave": true,
+        "editor.indentSize": 2,
+        "editor.wordBasedSuggestions": "off",
+        "files.trimTrailingWhitespace": true,
+    },
+    "python.languageServer": "Pylance",
+    "editor.formatOnSave": true,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "cmake.generator": "Ninja",
+    "cmake.configureOnOpen": true,
+    "cmake.languageSupport.enableFileAPI": true,
+    "cmake.languageSupport.dotnetPath": "dotnet",
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "C_Cpp.autocomplete": "disabled", // So you don't get autocomplete from both extensions.
+    "C_Cpp.errorSquiggles": "disabled", // So you don't get error squiggles from both extensions (clangd's seem to be more reliable anyway).
+    "clangd.path": "clangd",
+    "clangd.onConfigChanged": "restart",
+    "clangd.restartAfterCrash": true,
+    "clangd.checkUpdates": true,
+    "clangd.arguments": [
+        "-log=error",
+        "-pretty",
+        "--clang-tidy",
+        "--cross-file-rename",
+        "--background-index",
+        "--all-scopes-completion",
+        "--completion-style=detailed",
+        "--header-insertion=iwyu",
+        "--compile-commands-dir=${workspaceFolder}/build"
+    ],
+    "files.associations": {
+        "optional": "cpp",
+        "functional": "cpp",
+        "utility": "cpp"
+    },
+    "files.exclude": {
+        "**/bin": true,
+        "**/build": true,
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true
+    },
+    "search.exclude": {
+        "**/bin": true,
+        "**/build": true,
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.code-search": true
+    }
+}

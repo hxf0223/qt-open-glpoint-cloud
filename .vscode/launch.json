@@ -1,0 +1,59 @@
+{
+    "configurations": [
+        {
+            "name": "opengl_hello_texture",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/opengl_hello_texture.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/bin",
+            "environment": [],
+            "console": "internalConsole"
+        },
+        {
+            "name": "opengl_hello_mix_texture",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/opengl_hello_mix_texture.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/bin",
+            "environment": [],
+            "console": "internalConsole"
+        },
+        {
+            "name": "opengl_hello_mix_texture_revert_x",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/opengl_hello_mix_texture_revert_x.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/bin",
+            "environment": [],
+            "console": "internalConsole"
+        },
+        {
+            "name": "opengl_texture_wrapping",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/opengl_texture_wrapping.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/bin",
+            "environment": [],
+            "console": "internalConsole"
+        },
+        {
+            "name": "opengl_hello_mix_texture_range",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/opengl_hello_mix_texture_range.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/bin",
+            "environment": [],
+            "console": "internalConsole"
+        }
+    ]
+}

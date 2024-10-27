@@ -2,7 +2,6 @@
 /bin/
 /lib/
 /obj/
-**/.vscode/
 **/.cache/
 **/*.pdf
 **/*.user
