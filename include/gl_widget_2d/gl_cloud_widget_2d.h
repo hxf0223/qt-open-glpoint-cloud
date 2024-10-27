@@ -62,10 +62,6 @@ class GL_WIDGET_2D_API GLCloudWidget2D : public QOpenGLWidget {
 
  protected:
   QBrush background_;
-  QBrush circleBrush;
-  QFont textFont;
-  QPen circlePen;
-  QPen textPen;
 };
 
 }  // namespace test::gl_painter
