@@ -24,7 +24,7 @@ class GL_WIDGET_2D_API CloudWidget2DPaintDash : public CloudWidget2DPaintInterfa
   QPoint start_pt_, end_pt_;
 };
 
-class CloudWidget2DPaintHorizontalDashLine : public CloudWidget2DPaintDash {
+class GL_WIDGET_2D_API CloudWidget2DPaintHorizontalDashLine : public CloudWidget2DPaintDash {
  public:
   CloudWidget2DPaintHorizontalDashLine(GLCloudWidget2D* parent = nullptr);
   ~CloudWidget2DPaintHorizontalDashLine() override = default;

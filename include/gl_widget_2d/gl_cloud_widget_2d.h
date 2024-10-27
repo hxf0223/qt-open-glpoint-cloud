@@ -1,9 +1,7 @@
 #pragma once
 
 // #include <memory>
-#include <qlist.h>
-#include <qsize.h>
-#include <vector>
+//#include <vector>
 
 #include <QBrush>
 #include <QColor>
@@ -13,6 +11,8 @@
 #include <QPen>
 #include <QWidget>
 
+#include "gl_widget_2d_exp_def.h"
+
 namespace test::gl_painter {
 
 class CloudWidget2DPaintInterface;
@@ -20,7 +20,7 @@ class CloudWidget2DPaintDash;
 class CloudWidget2DPaintRect;
 class CloudWidget2DPaintHorizontalDashLine;
 
-class GLCloudWidget2D : public QOpenGLWidget {
+class GL_WIDGET_2D_API GLCloudWidget2D : public QOpenGLWidget {
   friend class CloudWidget2DPaintHorizontalDashLine;
   friend class CloudWidget2DPaintPoints;
   friend class CloudWidget2DPaintDash;
@@ -40,7 +40,7 @@ class GLCloudWidget2D : public QOpenGLWidget {
   void setRightToLeft(bool value);
   void setBottomToTop(bool value);
 
- public slots:
+ public Q_SLOTS:
   void animate();
 
  protected:
@@ -49,7 +49,7 @@ class GLCloudWidget2D : public QOpenGLWidget {
   void mouseMoveEvent(QMouseEvent* event) override;
   void resizeEvent(QResizeEvent* event) override;
 
- signals:
+ Q_SIGNALS:
   void signalPaintHit(int pid, int eid, double x, double y);
   void signalSizeChanged(QSize);
 

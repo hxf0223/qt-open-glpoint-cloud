@@ -5,6 +5,7 @@
 #include <QSize>
 
 #include "gl_cloud_widget_rng.h"
+#include "gl_widget_2d_exp_def.h"
 
 class QPainter;
 class QPaintEvent;
@@ -13,7 +14,7 @@ namespace test::gl_painter {
 
 class GLCloudWidget2D;
 
-class CloudWidget2DPaintInterface : public QObject {
+class GL_WIDGET_2D_API CloudWidget2DPaintInterface : public QObject {
   //Q_OBJECT
  public:
   constexpr static double kEPS = 1e-6;
