@@ -54,7 +54,7 @@ void MainWindow::init_points() {
   for (size_t i = 0; i < kNumPoints; i++) {
     const point_double_t cp{i * 4.0, i * 4.0};
     rects[i].rect = rect_double_t{cp - 3.0, cp + 3.0};
-    rects[i].label_ = tr("测试 ").append(QString::number(i));
+    rects[i].label_ = tr("测试 ").append(QString::number(i + 1));
     points[i] = cp;
   }
 
