@@ -3,5 +3,4 @@
 /lib/
 /obj/
 **/.cache/
-**/*.pdf
 **/*.user
