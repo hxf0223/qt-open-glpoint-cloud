@@ -30,6 +30,8 @@ class GL_WIDGET_2D_API CloudWidget2DPaintInterface : public QObject {
   test::gl_painter::imp::CloudWidget2DPaintInterfaceImp* getImpl();
 
   void setEnableMouseTrace(bool enable);
+  void setEnabled(bool enable);
+  bool isEnabled() const;
 
  public slots:
   void onWidgetResized(QSize size);

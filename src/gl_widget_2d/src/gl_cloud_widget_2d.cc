@@ -59,6 +59,7 @@ void GLCloudWidget2D::paintEvent(QPaintEvent* event) {
   painter.fillRect(event->rect(), brsh_background_);
 
   for (auto& p : paints_) {
+    if (!p->isEnabled()) continue;
     auto* impl = p->getImpl();
     impl->paint(&painter, event);
   }

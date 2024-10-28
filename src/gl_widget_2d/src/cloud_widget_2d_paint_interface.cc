@@ -25,6 +25,13 @@ void CloudWidget2DPaintInterface::onWidgetResized(QSize size) {
   impl_->process_widget_resize(size);
 }
 
+void CloudWidget2DPaintInterface::setEnabled(bool enable) {
+  impl_->setEnabled(enable);
+}
+bool CloudWidget2DPaintInterface::isEnabled() const {
+  return impl_->isEnabled();
+}
+
 test::gl_painter::imp::CloudWidget2DPaintInterfaceImp* CloudWidget2DPaintInterface::getImpl() {
   return impl_;
 }

@@ -37,8 +37,12 @@ class CloudWidget2DPaintInterfaceImp : public QObject {
   void setEnableMouseTrace(bool enable) { enable_mouse_trace_ = enable; }
   bool isMouseTraceEnabled() const { return enable_mouse_trace_; }
 
+  void setEnabled(bool enable);
+  bool isEnabled() const;
+
  protected:
   bool enable_mouse_trace_{false};
+  bool enabled_{true};
 
  protected:
   gl_cw_rng_xyd rng_{};
