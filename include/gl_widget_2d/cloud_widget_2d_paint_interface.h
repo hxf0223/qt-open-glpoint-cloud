@@ -4,55 +4,38 @@
 #include <QPoint>
 #include <QSize>
 
-#include "gl_cloud_widget_rng.h"
 #include "gl_widget_2d_exp_def.h"
 
 class QPainter;
 class QPaintEvent;
+
+namespace test::gl_painter::imp {
+class CloudWidget2DPaintInterfaceImp;
+}  // namespace test::gl_painter::imp
 
 namespace test::gl_painter {
 
 class GLCloudWidget2D;
 
 class GL_WIDGET_2D_API CloudWidget2DPaintInterface : public QObject {
-  //Q_OBJECT
+  Q_OBJECT
  public:
   constexpr static double kEPS = 1e-6;
-  CloudWidget2DPaintInterface(GLCloudWidget2D* widget) : QObject{}, widget_(widget) {}
+  CloudWidget2DPaintInterface(GLCloudWidget2D* widget);
   virtual ~CloudWidget2DPaintInterface() = default;
 
-  virtual void paint(QPainter* painter, QPaintEvent* event) = 0;
-
  public:
-  struct mouse_trace_t {
-    double x_{}, y_{};
-    int eid_{};
-    bool flag_{};
-  };
+  virtual void setColorIdx(size_t idx);
+  virtual void setRange(double minX, double maxX, double minY, double maxY);
+  test::gl_painter::imp::CloudWidget2DPaintInterfaceImp* getImpl();
 
- public:
-  virtual void setColorIdx(size_t idx) { clr_idx_ = idx; }
-  virtual void setRange(gl_cw_rng_xyd rng) { rng_ = rng; }
-
-  void setEnableMouseTrace(bool enable) { enable_mouse_trace_ = enable; }
-  bool isMouseTraceEnabled() const { return enable_mouse_trace_; }
-  virtual mouse_trace_t mouseTrace(const QPoint& pos) = 0;
+  void setEnableMouseTrace(bool enable);
 
  public slots:
-  void onWidgetResized(QSize size) { process_widget_resize(size); }
+  void onWidgetResized(QSize size);
 
  protected:
-  virtual void process_widget_resize(QSize size) = 0;
-
- protected:
-  bool enable_mouse_trace_{false};
-
- protected:
-  gl_cw_rng_xyd rng_{};
-  size_t clr_idx_{};
-
- protected:
-  GLCloudWidget2D* widget_{};
+  test::gl_painter::imp::CloudWidget2DPaintInterfaceImp* impl_{};
 };
 
 }  // namespace test::gl_painter

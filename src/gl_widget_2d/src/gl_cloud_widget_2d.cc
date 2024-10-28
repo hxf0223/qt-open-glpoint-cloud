@@ -3,6 +3,8 @@
 #include <QPainter>
 #include <QTimer>
 
+#include "cloud_widget_2d_paint_interface_imp.h"
+
 #include "gl_widget_2d/cloud_widget_2d_paint_interface.h"
 #include "gl_widget_2d/gl_cloud_widget_2d.h"
 
@@ -57,7 +59,8 @@ void GLCloudWidget2D::paintEvent(QPaintEvent* event) {
   painter.fillRect(event->rect(), brsh_background_);
 
   for (auto& p : paints_) {
-    p->paint(&painter, event);
+    auto* impl = p->getImpl();
+    impl->paint(&painter, event);
   }
 
   painter.end();
@@ -73,8 +76,9 @@ void GLCloudWidget2D::mouseMoveEvent(QMouseEvent* event) {
   // qDebug() << "mouseMoveEvent: " << pos;
 
   for (int i = 0; i < paints_.size(); i++) {
-    if (!paints_[i]->isMouseTraceEnabled()) continue;
-    const auto mt = paints_[i]->mouseTrace(pos);
+    auto* impl = paints_[i]->getImpl();
+    if (!impl->isMouseTraceEnabled()) continue;
+    const auto mt = impl->mouseTrace(pos);
     if (mt.flag_) {
       signalPaintHit(i, (int)(mt.eid_), mt.x_, mt.y_);
       break;

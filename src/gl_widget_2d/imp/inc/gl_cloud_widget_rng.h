@@ -1,6 +1,6 @@
 #pragma once
 
-namespace test::gl_painter {
+namespace test::gl_painter::imp {
 
 template <typename T>
 struct gl_cw_rng_axis {
@@ -15,4 +15,4 @@ struct gl_cw_rng_xy {
 
 using gl_cw_rng_xyd = gl_cw_rng_xy<double>;
 
-}  // namespace test::gl_painter
+}  // namespace test::gl_painter::imp

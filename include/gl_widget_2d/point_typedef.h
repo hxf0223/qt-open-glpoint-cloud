@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QString>
+
 namespace test::gl_painter {
 
 template <typename T>
@@ -22,6 +24,11 @@ using point_double_t = point_t<double>;
 struct rect_double_t {
   point_double_t top_left_;
   point_double_t bottom_right_;
+};
+
+struct paint_rect_data_t {
+  rect_double_t rect;
+  QString label_;
 };
 
 }  // namespace test::gl_painter

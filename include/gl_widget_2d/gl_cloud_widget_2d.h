@@ -13,18 +13,24 @@
 
 #include "gl_widget_2d_exp_def.h"
 
+namespace test::gl_painter::imp {
+class CloudWidget2DPaintInterfaceImp;
+class CloudWidget2DPaintPointsImp;
+class CloudWidget2DPaintRectImp;
+class CloudWidget2DPaintDashImp;
+class CloudWidget2DPaintHorizontalDashLineImp;
+}  // namespace test::gl_painter::imp
+
 namespace test::gl_painter {
 
 class CloudWidget2DPaintInterface;
-class CloudWidget2DPaintDash;
-class CloudWidget2DPaintRect;
-class CloudWidget2DPaintHorizontalDashLine;
 
 class GL_WIDGET_2D_API GLCloudWidget2D : public QOpenGLWidget {
-  friend class CloudWidget2DPaintHorizontalDashLine;
-  friend class CloudWidget2DPaintPoints;
-  friend class CloudWidget2DPaintDash;
-  friend class CloudWidget2DPaintRect;
+  friend class test::gl_painter::imp::CloudWidget2DPaintInterfaceImp;
+  friend class test::gl_painter::imp::CloudWidget2DPaintPointsImp;
+  friend class test::gl_painter::imp::CloudWidget2DPaintRectImp;
+  friend class test::gl_painter::imp::CloudWidget2DPaintDashImp;
+  friend class test::gl_painter::imp::CloudWidget2DPaintHorizontalDashLineImp;
 
   Q_OBJECT
 

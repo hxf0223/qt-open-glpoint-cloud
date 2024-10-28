@@ -65,13 +65,12 @@ void MainWindow::init_points() {
   const auto rng_miny = std::min_element(points.begin(), points.end(), predy)->y_;
   const auto rng_maxy = std::max_element(points.begin(), points.end(), predy)->y_;
 
-  gl_cw_rng_xyd rng{{{rng_minx, -1.0}, {rng_maxx, 1.0}}, {{rng_miny, -1.0}, {rng_maxy, -1.0}}};
-  paint_points_->setRange(rng);
+  paint_points_->setRange(rng_minx, rng_maxx, rng_miny, rng_maxy);
   paint_points_->setData(points);
 
-  paint_dash_line_->setRange(rng);
+  paint_dash_line_->setRange(rng_minx, rng_maxx, rng_miny, rng_maxy);
   paint_dash_line_->setY((rng_miny + rng_maxy) / 3);
 
-  paint_rect_->setRange(rng);
+  paint_rect_->setRange(rng_minx, rng_maxx, rng_miny, rng_maxy);
   paint_rect_->setData(rects);
 }
