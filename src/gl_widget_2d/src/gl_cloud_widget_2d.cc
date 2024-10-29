@@ -39,6 +39,14 @@ void GLCloudWidget2D::setRightToLeft(bool value) {
 void GLCloudWidget2D::setBottomToTop(bool value) {
   bottom_to_top_ = value;
 }
+void GLCloudWidget2D::forceUpdate() {
+  const auto sz = this->size();
+  for (auto& p : paints_) {
+    p->getImpl()->process_widget_resize(sz);
+  }
+
+  this->update();
+}
 
 void GLCloudWidget2D::addPaint(CloudWidget2DPaintInterface* paint) {
   connect(this, &GLCloudWidget2D::signalSizeChanged, paint, &CloudWidget2DPaintInterface::onWidgetResized);

@@ -46,6 +46,11 @@ class GL_WIDGET_2D_API GLCloudWidget2D : public QOpenGLWidget {
   void setRightToLeft(bool value);
   void setBottomToTop(bool value);
 
+  // the paint's resize update need set logic -> phy map first,
+  // otherwise the resize update will be wrong.
+  // so a new API provided to force update logic -> phy map.
+  void forceUpdate();
+
  public Q_SLOTS:
   void animate();
 

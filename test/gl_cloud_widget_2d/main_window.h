@@ -18,6 +18,7 @@ class MainWindow : public QWidget {
   MainWindow();
 
  protected:
+  void showEvent(QShowEvent* event) override;
   void init_points();
 
  protected:

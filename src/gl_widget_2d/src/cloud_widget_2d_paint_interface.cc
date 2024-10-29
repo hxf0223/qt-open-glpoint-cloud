@@ -32,6 +32,13 @@ bool CloudWidget2DPaintInterface::isEnabled() const {
   return impl_->isEnabled();
 }
 
+const QList<QColor>& CloudWidget2DPaintInterface::colors() const {
+  return std::ref(impl_->colors());
+}
+QList<QColor>& CloudWidget2DPaintInterface::colors() {
+  return std::ref(impl_->colors());
+}
+
 test::gl_painter::imp::CloudWidget2DPaintInterfaceImp* CloudWidget2DPaintInterface::getImpl() {
   return impl_;
 }

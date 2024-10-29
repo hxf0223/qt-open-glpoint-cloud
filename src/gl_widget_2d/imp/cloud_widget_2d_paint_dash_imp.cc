@@ -15,10 +15,9 @@ CloudWidget2DPaintDashImp::CloudWidget2DPaintDashImp(test::gl_painter::GLCloudWi
     : CloudWidget2DPaintInterfaceImp(glWidget) {}
 
 void CloudWidget2DPaintDashImp::paint(QPainter* painter, QPaintEvent* /*event*/) {
-  if (!widget_) return;
-  if ((int)(clr_idx_) >= widget_->colors_.size()) return;
+  if ((int)(clr_idx_) >= colors_.size()) return;
 
-  const auto& clr = widget_->colors_.at((int)clr_idx_);
+  const auto& clr = colors_.at((int)clr_idx_);
   QPen pen(clr, 2, Qt::DashDotDotLine, Qt::RoundCap, Qt::RoundJoin);
   QBrush brush(clr);
 

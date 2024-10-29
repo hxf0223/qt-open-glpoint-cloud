@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QColor>
+#include <QList>
 #include <QObject>
 #include <QPoint>
 #include <QSize>
@@ -37,8 +39,14 @@ class CloudWidget2DPaintInterfaceImp : public QObject {
   void setEnableMouseTrace(bool enable) { enable_mouse_trace_ = enable; }
   bool isMouseTraceEnabled() const { return enable_mouse_trace_; }
 
+  const QList<QColor>& colors() const;
+  QList<QColor>& colors();
+
   void setEnabled(bool enable);
   bool isEnabled() const;
+
+ protected:
+  QList<QColor> colors_;
 
  protected:
   bool enable_mouse_trace_{false};

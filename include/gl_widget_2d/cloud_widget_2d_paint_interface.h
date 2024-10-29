@@ -33,6 +33,9 @@ class GL_WIDGET_2D_API CloudWidget2DPaintInterface : public QObject {
   void setEnabled(bool enable);
   bool isEnabled() const;
 
+  const QList<QColor>& colors() const;
+  QList<QColor>& colors();
+
  public slots:
   void onWidgetResized(QSize size);
 

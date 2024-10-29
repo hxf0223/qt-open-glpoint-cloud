@@ -27,10 +27,9 @@ void CloudWidget2DPaintPointsImp::setPhyPointSize(double size) {
 }
 
 void CloudWidget2DPaintPointsImp::paint(QPainter* painter, QPaintEvent* /*event*/) {
-  if (pts_.empty() || !widget_) return;
-  if ((int)(clr_idx_) >= widget_->colors_.size()) return;
+  if (pts_.empty() || ((int)(clr_idx_) >= colors_.size())) return;
 
-  const auto& clr = widget_->colors_.at((int)clr_idx_);
+  const auto& clr = colors_.at((int)clr_idx_);
   QPen pen(clr, pt_phy_size_, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
   QBrush brush(clr);
 

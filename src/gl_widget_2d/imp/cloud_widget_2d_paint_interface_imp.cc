@@ -7,6 +7,13 @@ namespace test::gl_painter::imp {
 CloudWidget2DPaintInterfaceImp::CloudWidget2DPaintInterfaceImp(test::gl_painter::GLCloudWidget2D* glWidget)
     : QObject(glWidget), widget_(glWidget) {}
 
+const QList<QColor>& CloudWidget2DPaintInterfaceImp::colors() const {
+  return colors_;
+}
+QList<QColor>& CloudWidget2DPaintInterfaceImp::colors() {
+  return colors_;
+}
+
 void CloudWidget2DPaintInterfaceImp::setEnabled(bool enable) {
   enabled_ = enable;
 }

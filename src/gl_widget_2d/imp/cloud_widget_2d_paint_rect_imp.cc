@@ -27,10 +27,9 @@ void CloudWidget2DPaintRectImp::setPenStyle(Qt::PenStyle style) {
 }
 
 void CloudWidget2DPaintRectImp::paint(QPainter* painter, QPaintEvent* /*event*/) {
-  if (phy_rects_.empty() || !widget_) return;
-  if ((int)(clr_idx_) >= widget_->colors_.size()) return;
+  if (phy_rects_.empty() || ((int)(clr_idx_) >= colors_.size())) return;
 
-  const auto& clr = widget_->colors_.at((int)clr_idx_);
+  const auto& clr = colors_.at((int)clr_idx_);
   QPen pen(clr, 1, pen_style_, Qt::RoundCap, Qt::RoundJoin);
   QBrush brush(clr);
 
