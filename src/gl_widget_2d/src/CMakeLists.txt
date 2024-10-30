@@ -19,5 +19,5 @@ target_link_libraries(${target_name} PRIVATE Qt5::Core Qt5::Widgets Qt5::OpenGL)
 target_link_libraries(${target_name} PRIVATE ${target_gl_widget_2d_impl})
 target_compile_definitions(${target_name} PRIVATE -DGL_WIDGET_2D_LIB)
 
-# set_target_properties(${target_name} PROPERTIES CXX_VISIBILITY_PRESET "hidden")
+set_target_properties(${target_name} PROPERTIES CXX_VISIBILITY_PRESET "hidden")
 set(target_gl_widget_2d ${target_name} PARENT_SCOPE)

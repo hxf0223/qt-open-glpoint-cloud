@@ -15,4 +15,5 @@ set(target_name "gl_widget_2d_impl")
 add_library(${target_name} STATIC ${SRCS} ${HEADERS})
 target_link_libraries(${target_name} PRIVATE Qt5::Core Qt5::Widgets Qt5::OpenGL)
 
+set_target_properties(${target_name} PROPERTIES CXX_VISIBILITY_PRESET "hidden")
 set(target_gl_widget_2d_impl ${target_name} PARENT_SCOPE)
