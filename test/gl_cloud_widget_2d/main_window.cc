@@ -1,5 +1,6 @@
 #include <algorithm>
 
+#include <QDebug>
 #include <QGridLayout>
 #include <QTimer>
 
@@ -8,8 +9,6 @@
 #include "gl_widget_2d/cloud_widget_2d_paint_rect.h"
 #include "gl_widget_2d/gl_cloud_widget_2d.h"
 
-#include <qmainwindow.h>
-#include <qmargins.h>
 #include "main_window.h"
 
 using namespace test::gl_painter;
@@ -21,6 +20,10 @@ MainWindow::MainWindow() {
   glcw_2d_->setContentsMargins(QMargins(0, 0, 0, 0));
   glcw_2d_->setRightToLeft(true);
 
+  connect(glcw_2d_, &GLCloudWidget2D::signalPaintHit, [](int pid, int eid, double x, double y) {
+    qDebug() << "hit point " << pid << " with event " << eid << " at " << x << ", " << y;
+  });
+
   {
     paint_points_ = new CloudWidget2DPaintPoints(glcw_2d_);
     paint_points_->setEnableMouseTrace(true);
@@ -31,7 +34,7 @@ MainWindow::MainWindow() {
     paint_dash_line_->colors() << QColor(0, 0, 255);
 
     paint_rect_ = new CloudWidget2DPaintRect(glcw_2d_);
-    paint_rect_->colors() << QColor(0, 255, 0);
+    paint_rect_->colors() << QColor(Qt::magenta);
 
     glcw_2d_->addPaint(paint_points_);
     glcw_2d_->addPaint(paint_dash_line_);

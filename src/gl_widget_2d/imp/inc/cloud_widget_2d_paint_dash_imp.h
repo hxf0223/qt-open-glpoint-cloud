@@ -1,14 +1,10 @@
 #pragma once
 
-#include <qchar.h>
-#include <vector>
-
 #include <QPoint>
 #include <QPointF>
 #include <QRect>
 
 #include "cloud_widget_2d_paint_interface_imp.h"
-#include "gl_widget_2d/point_typedef.h"
 
 namespace test::gl_painter::imp {
 

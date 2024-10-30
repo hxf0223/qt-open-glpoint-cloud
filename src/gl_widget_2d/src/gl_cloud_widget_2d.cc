@@ -91,7 +91,7 @@ void GLCloudWidget2D::mouseMoveEvent(QMouseEvent* event) {
     if (!impl->isMouseTraceEnabled()) continue;
     const auto mt = impl->mouseTrace(pos);
     if (mt.flag_) {
-      signalPaintHit(i, (int)(mt.eid_), mt.x_, mt.y_);
+      emit signalPaintHit(i, (int)(mt.eid_), mt.x_, mt.y_);
       break;
     }
   }
