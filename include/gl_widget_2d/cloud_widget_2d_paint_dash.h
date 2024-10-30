@@ -10,7 +10,7 @@ namespace test::gl_painter {
 class GL_WIDGET_2D_API CloudWidget2DPaintHorizontalDashLine : public CloudWidget2DPaintInterface {
  public:
   CloudWidget2DPaintHorizontalDashLine(GLCloudWidget2D* parent = nullptr);
-  ~CloudWidget2DPaintHorizontalDashLine() override = default;
+  ~CloudWidget2DPaintHorizontalDashLine() override;
 
   void setY(double y);
 };

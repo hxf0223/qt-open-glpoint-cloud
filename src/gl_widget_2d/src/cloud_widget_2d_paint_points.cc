@@ -17,6 +17,9 @@ using namespace test::gl_painter::imp;
 CloudWidget2DPaintPoints::CloudWidget2DPaintPoints(GLCloudWidget2D* widget) : CloudWidget2DPaintInterface(widget) {
   impl_ = new CloudWidget2DPaintPointsImp(widget);
 }
+CloudWidget2DPaintPoints::~CloudWidget2DPaintPoints() {
+  delete impl_;
+}
 
 void CloudWidget2DPaintPoints::setData(const std::vector<point_double_t>& pts) {
   auto* impl = dynamic_cast<CloudWidget2DPaintPointsImp*>(impl_);

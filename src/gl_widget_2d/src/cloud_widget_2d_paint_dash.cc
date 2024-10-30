@@ -1,4 +1,5 @@
 #include <QColor>
+#include <QDebug>
 #include <QList>
 #include <QPaintEvent>
 #include <QPainter>
@@ -19,6 +20,10 @@ namespace test::gl_painter {
 CloudWidget2DPaintHorizontalDashLine::CloudWidget2DPaintHorizontalDashLine(GLCloudWidget2D* widget)
     : CloudWidget2DPaintInterface(widget) {
   impl_ = new CloudWidget2DPaintHorizontalDashLineImp(widget);
+}
+
+CloudWidget2DPaintHorizontalDashLine::~CloudWidget2DPaintHorizontalDashLine() {
+  delete impl_;
 }
 
 void CloudWidget2DPaintHorizontalDashLine::setY(double y) {

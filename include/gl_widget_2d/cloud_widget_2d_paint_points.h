@@ -29,7 +29,7 @@ struct point_adapter_t {
 class GL_WIDGET_2D_API CloudWidget2DPaintPoints : public CloudWidget2DPaintInterface {
  public:
   CloudWidget2DPaintPoints(GLCloudWidget2D* widget);
-  ~CloudWidget2DPaintPoints() override = default;
+  ~CloudWidget2DPaintPoints() override;
 
   void setData(const std::vector<point_double_t>& pts);
   void setPhyPointSize(double size);

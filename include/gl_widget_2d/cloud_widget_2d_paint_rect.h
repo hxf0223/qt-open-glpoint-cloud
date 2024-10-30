@@ -16,7 +16,7 @@ namespace test::gl_painter {
 class GL_WIDGET_2D_API CloudWidget2DPaintRect : public CloudWidget2DPaintInterface {
  public:
   CloudWidget2DPaintRect(GLCloudWidget2D* widget);
-  ~CloudWidget2DPaintRect() override = default;
+  ~CloudWidget2DPaintRect() override;
 
   void setPenStyle(Qt::PenStyle style);
   void setData(const std::vector<paint_rect_data_t>& rects);

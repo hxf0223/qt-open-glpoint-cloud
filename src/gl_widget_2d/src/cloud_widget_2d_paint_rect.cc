@@ -18,6 +18,9 @@ namespace test::gl_painter {
 CloudWidget2DPaintRect::CloudWidget2DPaintRect(GLCloudWidget2D* parent) : CloudWidget2DPaintInterface(parent) {
   impl_ = new CloudWidget2DPaintRectImp(parent);
 }
+CloudWidget2DPaintRect::~CloudWidget2DPaintRect() {
+  delete impl_;
+}
 
 void CloudWidget2DPaintRect::setData(const std::vector<paint_rect_data_t>& rects) {
   auto* impl = dynamic_cast<CloudWidget2DPaintRectImp*>(impl_);
