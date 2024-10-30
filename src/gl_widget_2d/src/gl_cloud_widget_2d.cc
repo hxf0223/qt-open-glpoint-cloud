@@ -5,6 +5,7 @@
 
 #include "cloud_widget_2d_paint_interface_imp.h"
 
+#include <qopenglwidget.h>
 #include "gl_widget_2d/cloud_widget_2d_paint_interface.h"
 #include "gl_widget_2d/gl_cloud_widget_2d.h"
 
@@ -76,11 +77,12 @@ void GLCloudWidget2D::paintEvent(QPaintEvent* event) {
 }
 
 void GLCloudWidget2D::mousePressEvent(QMouseEvent* event) {
-  const auto pos = event->pos();
-  qDebug() << "mousePressEvent: " << pos;
+  QOpenGLWidget::mousePressEvent(event);
+  // const auto pos = event->pos();
 }
 
 void GLCloudWidget2D::mouseMoveEvent(QMouseEvent* event) {
+  QOpenGLWidget::mouseMoveEvent(event);
   const auto pos = event->pos();
   // qDebug() << "mouseMoveEvent: " << pos;
 
