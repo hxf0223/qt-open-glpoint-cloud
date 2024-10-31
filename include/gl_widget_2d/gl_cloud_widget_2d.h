@@ -3,6 +3,7 @@
 // #include <memory>
 //#include <vector>
 
+#include <qpolygon.h>
 #include <QBrush>
 #include <QColor>
 #include <QFont>
@@ -10,6 +11,7 @@
 #include <QOpenGLWidget>
 #include <QPen>
 #include <QPointF>
+#include <QRect>
 #include <QWidget>
 
 #include "gl_widget_2d_exp_def.h"
@@ -51,6 +53,8 @@ class GL_WIDGET_2D_API GLCloudWidget2D : public QOpenGLWidget {
   QPointF mapToPosition(const QPointF& pos, const CloudWidget2DPaintInterface* paint) const;
   QPointF mapToPosition(const QPointF& pos, int paintIdx) const;
 
+  void setMargin(int left, int top, int right, int bottom);
+
   // the paint's resize update need set logic -> phy map first,
   // otherwise the resize update will be wrong.
   // so a new API provided to force update logic -> phy map.
@@ -79,6 +83,10 @@ class GL_WIDGET_2D_API GLCloudWidget2D : public QOpenGLWidget {
 
  protected:
   QBrush brsh_background_;
+
+ protected:
+  int margin_left_{0}, margin_top_{0}, margin_right_{0}, margin_bottom_{0};
+  QRect paint_area_;
 };
 
 }  // namespace test::gl_painter

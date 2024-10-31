@@ -12,6 +12,7 @@ MainWindow::MainWindow() {
   setWindowTitle(tr("2D Painting on Native and OpenGL Widgets"));
 
   glcw_2d_ = new GLWidget(this);
+  glcw_2d_->setMargin(100, 60, 100, 60);
 
   auto* layout = new QGridLayout;
   layout->setContentsMargins(QMargins(0, 0, 0, 0));

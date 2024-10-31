@@ -18,8 +18,8 @@ void CloudWidget2DPaintRectImp::setData(const std::vector<paint_rect_data_t>& re
   lg_rects_ = rects;
   phy_rects_ = std::vector<QRectF>(lg_rects_.size());
   CHECK2(widget_, "widget_ is nullptr");
-  const auto rect = QRect(QPoint(0, 0), widget_->size());
-  update_phy_points(rect);
+  const auto phy_rect = widget_->paint_area_;
+  update_phy_points(phy_rect);
 }
 
 void CloudWidget2DPaintRectImp::setPenStyle(Qt::PenStyle style) {
@@ -59,8 +59,9 @@ QPointF CloudWidget2DPaintRectImp::lg_pt_to_phy_pt(const QPointF& /*pt*/) const 
   return QPointF();
 }
 
-void CloudWidget2DPaintRectImp::process_widget_resize(QSize size) {
-  QRect rect(QPoint(0, 0), size);
+void CloudWidget2DPaintRectImp::process_widget_resize(QSize /*size*/) {
+  CHECK2(widget_, "widget_ is nullptr");
+  const QRect rect = widget_->paint_area_;
   update_phy_points(rect);
 }
 
@@ -79,10 +80,10 @@ void CloudWidget2DPaintRectImp::update_phy_points(const QRect& rect) {
 
   for (size_t i = 0; i < lg_rects_.size(); i++) {
     const auto& lg_rect = lg_rects_[i].rect;
-    phy_lt_xs[i] = (lg_rect.top_left_.x_ - lg_minx) / lg_width * phy_width + phy_minx;
-    phy_lt_ys[i] = (lg_rect.top_left_.y_ - lg_miny) / lg_height * phy_height + phy_miny;
-    phy_rb_xs[i] = (lg_rect.bottom_right_.x_ - lg_minx) / lg_width * phy_width + phy_minx;
-    phy_rb_ys[i] = (lg_rect.bottom_right_.y_ - lg_miny) / lg_height * phy_height + phy_miny;
+    phy_lt_xs[i] = (lg_rect.top_left_.x_ - lg_minx) / lg_width * phy_width;
+    phy_lt_ys[i] = (lg_rect.top_left_.y_ - lg_miny) / lg_height * phy_height;
+    phy_rb_xs[i] = (lg_rect.bottom_right_.x_ - lg_minx) / lg_width * phy_width;
+    phy_rb_ys[i] = (lg_rect.bottom_right_.y_ - lg_miny) / lg_height * phy_height;
   }
   if (widget_->right_to_left_) {
     for (size_t i = 0; i < lg_rects_.size(); i++) {
@@ -97,6 +98,10 @@ void CloudWidget2DPaintRectImp::update_phy_points(const QRect& rect) {
       phy_rb_ys[i] = phy_height - phy_rb_ys[i];
       std::swap(phy_lt_ys[i], phy_rb_ys[i]);
     }
+  }
+  for (size_t i = 0; i < lg_rects_.size(); i++) {
+    phy_lt_xs[i] += phy_minx, phy_lt_ys[i] += phy_miny;
+    phy_rb_xs[i] += phy_minx, phy_rb_ys[i] += phy_miny;
   }
 
   for (size_t i = 0; i < lg_rects_.size(); i++) {

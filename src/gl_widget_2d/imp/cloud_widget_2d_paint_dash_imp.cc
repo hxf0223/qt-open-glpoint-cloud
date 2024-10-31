@@ -44,8 +44,9 @@ QPointF CloudWidget2DPaintDashImp::lg_pt_to_phy_pt(const QPointF& /*pt*/) const 
 CloudWidget2DPaintHorizontalDashLineImp::CloudWidget2DPaintHorizontalDashLineImp(test::gl_painter::GLCloudWidget2D* glWidget)
     : CloudWidget2DPaintDashImp(glWidget) {}
 
-void CloudWidget2DPaintHorizontalDashLineImp::process_widget_resize(QSize size) {
-  QRect rect(QPoint(0, 0), size);
+void CloudWidget2DPaintHorizontalDashLineImp::process_widget_resize(QSize /*size*/) {
+  CHECK2(widget_, "widget_ is null");
+  const QRect rect = widget_->paint_area_;
   update_phy_points(rect);
 }
 
@@ -56,19 +57,18 @@ void CloudWidget2DPaintHorizontalDashLineImp::update_phy_points(const QRect& rec
   const auto lg_miny = rng_.axis_y_[0].value_, lg_maxy = rng_.axis_y_[1].value_;
   const auto lg_height = lg_maxy - lg_miny;
 
-  phy_y_ = (lg_y_ - lg_miny) / lg_height * phy_height + phy_miny;
-  if (widget_->bottom_to_top_) {
-    phy_y_ = phy_height - phy_y_;
-  }
+  phy_y_ = (lg_y_ - lg_miny) / lg_height * phy_height;
+  if (widget_->bottom_to_top_) phy_y_ = phy_height - phy_y_;
+  phy_y_ += phy_miny;
 
-  start_pt_ = QPoint(0, phy_y_);
-  end_pt_ = QPoint(rect.width(), phy_y_);
+  start_pt_ = QPoint(rect.x(), phy_y_);
+  end_pt_ = QPoint(rect.right(), phy_y_);
 }
 
 void CloudWidget2DPaintHorizontalDashLineImp::setY(double y) {
   lg_y_ = y;
   CHECK1(widget_, "widget_ is null");
-  const auto rect = widget_->rect();
+  const auto rect = widget_->paint_area_;
   update_phy_points(rect);
 }
 

@@ -15,10 +15,11 @@ CloudWidget2DPaintPointsImp::CloudWidget2DPaintPointsImp(test::gl_painter::GLClo
     : CloudWidget2DPaintInterfaceImp(glWidget) {}
 
 void CloudWidget2DPaintPointsImp::setData(const std::vector<point_double_t>& pts) {
+  CHECK2(widget_, "widget_ is nullptr");
   phy_pts_ = std::vector<QPointF>(pts.size());
   pts_ = pts;
 
-  const auto rect = QRect(QPoint(0, 0), widget_->size());
+  const auto rect = widget_->paint_area_;
   update_phy_points(rect);
 }
 void CloudWidget2DPaintPointsImp::setPhyPointSize(double size) {
@@ -45,7 +46,10 @@ QPointF CloudWidget2DPaintPointsImp::widget_pt_to_logic_pt(const QPoint& pt) con
   const auto lg_minx = rng_.axis_x_[0].value_, lg_miny = rng_.axis_y_[0].value_;
   const auto lg_maxx = rng_.axis_x_[1].value_, lg_maxy = rng_.axis_y_[1].value_;
   const auto lg_width = lg_maxx - lg_minx, lg_height = lg_maxy - lg_miny;
-  QRect phy_rect(QPoint(0, 0), widget_->size());
+
+  CHECK2(widget_, "widget_ is nullptr");
+  const QRect phy_rect = widget_->paint_area_;
+  const auto phy_pt = QPointF(pt.x() - phy_rect.x(), pt.y() - phy_rect.y());
 
   constexpr double eps = CloudWidget2DPaintInterface::kEPS;
   QPointF logic_pt(0.0, 0.0);
@@ -53,11 +57,10 @@ QPointF CloudWidget2DPaintPointsImp::widget_pt_to_logic_pt(const QPoint& pt) con
     return logic_pt;
   }
 
-  CHECK2(widget_, "widget_ is nullptr");
   const auto right_to_left = widget_->right_to_left_;
   const auto bottom_to_top = widget_->bottom_to_top_;
-  const double phy_x = right_to_left ? phy_rect.width() - pt.x() : pt.x();
-  const double phy_y = bottom_to_top ? phy_rect.height() - pt.y() : pt.y();
+  const double phy_x = right_to_left ? phy_rect.width() - phy_pt.x() : phy_pt.x();
+  const double phy_y = bottom_to_top ? phy_rect.height() - phy_pt.y() : phy_pt.y();
 
   logic_pt.setX(lg_minx + (phy_x / phy_rect.width()) * lg_width);
   logic_pt.setY(lg_miny + (phy_y / phy_rect.height()) * lg_height);
@@ -87,8 +90,8 @@ void CloudWidget2DPaintPointsImp::update_phy_points(const QRect& rect) {
   CHECK2(phy_pts_.size() == pts_.size(), "phy_pts_.size() != pts_.size()");
 
   for (size_t i = 0; i < pts_.size(); i++) {
-    const auto phy_x = (pts_[i].x_ - lg_minx) / lg_width * phy_width + phy_minx;
-    const auto phy_y = (pts_[i].y_ - lg_miny) / lg_height * phy_height + phy_miny;
+    const auto phy_x = (pts_[i].x_ - lg_minx) / lg_width * phy_width;
+    const auto phy_y = (pts_[i].y_ - lg_miny) / lg_height * phy_height;
     phy_pts_[i] = QPointF(phy_x, phy_y);
   }
   if (widget_->right_to_left_) {
@@ -100,6 +103,11 @@ void CloudWidget2DPaintPointsImp::update_phy_points(const QRect& rect) {
     for (size_t i = 0; i < pts_.size(); i++) {
       phy_pts_[i].setY(phy_height - phy_pts_[i].y());
     }
+  }
+
+  for (auto& pt : phy_pts_) {
+    pt.setX(pt.x() + phy_minx);
+    pt.setY(pt.y() + phy_miny);
   }
 }
 
@@ -121,8 +129,9 @@ mouse_trace_t CloudWidget2DPaintPointsImp::mouseTrace(const QPoint& pos) {
   return trace;
 }
 
-void CloudWidget2DPaintPointsImp::process_widget_resize(QSize size) {
-  QRect rect(QPoint(0, 0), size);
+void CloudWidget2DPaintPointsImp::process_widget_resize(QSize /*size*/) {
+  CHECK2(widget_, "widget_ is nullptr");
+  const QRect rect = widget_->paint_area_;
   update_phy_points(rect);
 }
 
@@ -130,7 +139,10 @@ QPointF CloudWidget2DPaintPointsImp::lg_pt_to_phy_pt(const QPointF& pt) const {
   CHECK2(widget_, "widget_ is nullptr");
   const auto lg_width = rng_.axis_x_[1].value_ - rng_.axis_x_[0].value_;
   const auto lg_height = rng_.axis_y_[1].value_ - rng_.axis_y_[0].value_;
-  const auto phy_width = widget_->width(), phy_height = widget_->height();
+
+  const auto phy_rect = widget_->paint_area_;
+  const auto phy_width = phy_rect.width(), phy_height = phy_rect.height();
+
   constexpr double eps = CloudWidget2DPaintInterface::kEPS;
   if (lg_width < eps || lg_height < eps) {
     qDebug() << "lg_width < eps || lg_height < eps";
@@ -138,11 +150,12 @@ QPointF CloudWidget2DPaintPointsImp::lg_pt_to_phy_pt(const QPointF& pt) const {
   }
 
   double phyx = (pt.x() - rng_.axis_x_[0].value_) / lg_width * phy_width;
-  double phy_y = (pt.y() - rng_.axis_y_[0].value_) / lg_height * phy_height;
+  double phyy = (pt.y() - rng_.axis_y_[0].value_) / lg_height * phy_height;
   if (widget_->right_to_left_) phyx = phy_width - phyx;
-  if (widget_->bottom_to_top_) phy_y = phy_height - phy_y;
+  if (widget_->bottom_to_top_) phyy = phy_height - phyy;
 
-  return QPointF(phyx, phy_y);
+  phyx += phy_rect.x(), phyy += phy_rect.y();
+  return QPointF(phyx, phyy);
 }
 
 }  // namespace test::gl_painter::imp

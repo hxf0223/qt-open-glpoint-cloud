@@ -17,6 +17,7 @@ GLCloudWidget2D::GLCloudWidget2D(QWidget* parent) : QOpenGLWidget(parent) {
   setMouseTracking(true);
 
   brsh_background_ = QBrush(QColor(0, 0, 0));
+  paint_area_ = this->rect();
 }
 GLCloudWidget2D::~GLCloudWidget2D() {
   for (auto& p : paints_) {
@@ -57,7 +58,7 @@ void GLCloudWidget2D::addPaint(CloudWidget2DPaintInterface* paint) {
   paints_.push_back(paint);
 }
 void GLCloudWidget2D::animate() {
-  update();
+  forceUpdate();
 }
 
 QPointF GLCloudWidget2D::mapToPosition(const QPointF& pos, const CloudWidget2DPaintInterface* paint) const {
@@ -71,6 +72,21 @@ QPointF GLCloudWidget2D::mapToPosition(const QPointF& pos, int paintIdx) const {
   if (paintIdx < 0 || paintIdx >= paints_.size()) return QPointF();
   const auto paint_imp = paints_[paintIdx]->getImpl();
   return paint_imp->lg_pt_to_phy_pt(pos);
+}
+
+void GLCloudWidget2D::setMargin(int left, int top, int right, int bottom) {
+  if (left < 0 || top < 0 || right < 0 || bottom < 0) return;
+  if ((left + right) >= this->width()) return;
+  if ((top + bottom) >= this->height()) return;
+
+  margin_left_ = left, margin_top_ = top;
+  margin_right_ = right, margin_bottom_ = bottom;
+  paint_area_ = QRect(margin_left_, margin_top_, this->width(), this->height());
+  paint_area_.setWidth(paint_area_.width() - margin_left_ - margin_right_);
+  paint_area_.setHeight(paint_area_.height() - margin_top_ - margin_bottom_);
+
+  setMinimumSize(left + right + 1, top + bottom + 1);
+  forceUpdate();
 }
 
 void GLCloudWidget2D::paintEvent(QPaintEvent* event) {
@@ -122,8 +138,13 @@ void GLCloudWidget2D::mouseMoveEvent(QMouseEvent* event) {
 
 void GLCloudWidget2D::resizeEvent(QResizeEvent* event) {
   const auto size = event->size();
+  paint_area_ = QRect(margin_left_, margin_top_, size.width(), size.height());
+  paint_area_.setWidth(size.width() - margin_left_ - margin_right_);
+  paint_area_.setHeight(size.height() - margin_top_ - margin_bottom_);
+
+  const auto paint_sz = paint_area_.size();
   QOpenGLWidget::resizeEvent(event);
-  emit signalSizeChanged(size);
+  emit signalSizeChanged(paint_sz);
 }
 
 }  // namespace test::gl_painter

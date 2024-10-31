@@ -73,7 +73,7 @@ void GLWidget::init_points() {
   paint_points_->setData(points);
 
   paint_dash_line_->setRange(rng_minx, rng_maxx, rng_miny, rng_maxy);
-  paint_dash_line_->setY((rng_miny + rng_maxy) / 3);
+  paint_dash_line_->setY((rng_miny + rng_maxy) / 4);
 
   paint_rect_->setRange(rng_minx, rng_maxx, rng_miny, rng_maxy);
   paint_rect_->setData(rects);
