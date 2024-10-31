@@ -1,6 +1,7 @@
 #pragma once
 
 #include <qchar.h>
+#include <qpoint.h>
 #include <vector>
 
 #include <QPoint>
@@ -23,6 +24,7 @@ class CloudWidget2DPaintRectImp : public CloudWidget2DPaintInterfaceImp {
   void paint(QPainter* painter, QPaintEvent* event) override;
   mouse_trace_t mouseTrace(const QPoint& pos) override;
   void process_widget_resize(QSize size) override;
+  QPointF lg_pt_to_phy_pt(const QPointF& pt) const override;
 
  protected:
   void update_phy_points(const QRect& rect);

@@ -27,6 +27,7 @@ class CloudWidget2DPaintPointsImp : public CloudWidget2DPaintInterfaceImp {
   void paint(QPainter* painter, QPaintEvent* event) override;
   mouse_trace_t mouseTrace(const QPoint& pos) override;
   void process_widget_resize(QSize size) override;
+  QPointF lg_pt_to_phy_pt(const QPointF& pt) const override;
 
  protected:
   QPointF widget_pt_to_logic_pt(const QPoint& pt) const;
@@ -36,7 +37,6 @@ class CloudWidget2DPaintPointsImp : public CloudWidget2DPaintInterfaceImp {
   double pt_phy_size_{1.0};
   std::vector<point_double_t> pts_;
   std::vector<QPointF> phy_pts_;
-  std::vector<double> phy_xs_, phy_ys_;
 };
 
 }  // namespace test::gl_painter::imp

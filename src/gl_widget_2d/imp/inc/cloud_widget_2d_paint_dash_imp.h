@@ -16,6 +16,7 @@ class CloudWidget2DPaintDashImp : public CloudWidget2DPaintInterfaceImp {
   void paint(QPainter* painter, QPaintEvent* event) override;
   mouse_trace_t mouseTrace(const QPoint& pos) override;
   void process_widget_resize(QSize size) override;
+  QPointF lg_pt_to_phy_pt(const QPointF& pt) const override;
 
  protected:
   QPoint start_pt_, end_pt_;

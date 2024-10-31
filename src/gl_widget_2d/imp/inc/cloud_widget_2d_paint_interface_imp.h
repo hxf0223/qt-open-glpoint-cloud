@@ -1,10 +1,13 @@
 #pragma once
 
+#include <qpoint.h>
 #include <QColor>
 #include <QList>
 #include <QObject>
 #include <QPoint>
+#include <QPointF>
 #include <QSize>
+
 
 #include "gl_cloud_widget_rng.h"
 
@@ -31,6 +34,7 @@ class CloudWidget2DPaintInterfaceImp : public QObject {
   virtual void paint(QPainter* painter, QPaintEvent* event) = 0;
   virtual mouse_trace_t mouseTrace(const QPoint& pos) = 0;
   virtual void process_widget_resize(QSize size) = 0;
+  virtual QPointF lg_pt_to_phy_pt(const QPointF& pt) const = 0;
 
  public:
   virtual void setColorIdx(size_t idx) { clr_idx_ = idx; }

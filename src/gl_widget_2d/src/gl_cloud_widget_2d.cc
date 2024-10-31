@@ -40,6 +40,9 @@ void GLCloudWidget2D::setRightToLeft(bool value) {
 void GLCloudWidget2D::setBottomToTop(bool value) {
   bottom_to_top_ = value;
 }
+void GLCloudWidget2D::enablePaintTrace(bool enable) {
+  enable_paint_trace_ = enable;
+}
 void GLCloudWidget2D::forceUpdate() {
   const auto sz = this->size();
   for (auto& p : paints_) {
@@ -55,6 +58,19 @@ void GLCloudWidget2D::addPaint(CloudWidget2DPaintInterface* paint) {
 }
 void GLCloudWidget2D::animate() {
   update();
+}
+
+QPointF GLCloudWidget2D::mapToPosition(const QPointF& pos, const CloudWidget2DPaintInterface* paint) const {
+  const auto paint_it = std::find(paints_.begin(), paints_.end(), paint);
+  if (paint_it == paints_.end()) return QPointF();
+
+  const auto paint_imp = (*paint_it)->getImpl();
+  return paint_imp->lg_pt_to_phy_pt(pos);
+}
+QPointF GLCloudWidget2D::mapToPosition(const QPointF& pos, int paintIdx) const {
+  if (paintIdx < 0 || paintIdx >= paints_.size()) return QPointF();
+  const auto paint_imp = paints_[paintIdx]->getImpl();
+  return paint_imp->lg_pt_to_phy_pt(pos);
 }
 
 void GLCloudWidget2D::paintEvent(QPaintEvent* event) {
@@ -86,13 +102,20 @@ void GLCloudWidget2D::mouseMoveEvent(QMouseEvent* event) {
   const auto pos = event->pos();
   // qDebug() << "mouseMoveEvent: " << pos;
 
-  for (int i = 0; i < paints_.size(); i++) {
-    auto* impl = paints_[i]->getImpl();
-    if (!impl->isMouseTraceEnabled()) continue;
-    const auto mt = impl->mouseTrace(pos);
-    if (mt.flag_) {
-      emit signalPaintHit(i, (int)(mt.eid_), mt.x_, mt.y_);
-      break;
+  if (enable_paint_trace_) {
+    bool hit_flag{false};
+    for (int i = 0; i < paints_.size() && !hit_flag; i++) {
+      auto* impl = paints_[i]->getImpl();
+      if (!impl->isMouseTraceEnabled()) continue;
+      const auto mt = impl->mouseTrace(pos);
+      if (mt.flag_) {
+        hit_flag = true;
+        emit signalPaintHit(i, (int)(mt.eid_), mt.x_, mt.y_);
+      }
+    }
+
+    if (!hit_flag) {
+      emit signalPaintHit(-1, -1, 0.0, 0.0);
     }
   }
 }

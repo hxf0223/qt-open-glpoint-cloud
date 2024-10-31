@@ -9,6 +9,7 @@
 #include <QList>
 #include <QOpenGLWidget>
 #include <QPen>
+#include <QPointF>
 #include <QWidget>
 
 #include "gl_widget_2d_exp_def.h"
@@ -45,6 +46,10 @@ class GL_WIDGET_2D_API GLCloudWidget2D : public QOpenGLWidget {
 
   void setRightToLeft(bool value);
   void setBottomToTop(bool value);
+  void enablePaintTrace(bool enable);
+
+  QPointF mapToPosition(const QPointF& pos, const CloudWidget2DPaintInterface* paint) const;
+  QPointF mapToPosition(const QPointF& pos, int paintIdx) const;
 
   // the paint's resize update need set logic -> phy map first,
   // otherwise the resize update will be wrong.
@@ -70,6 +75,7 @@ class GL_WIDGET_2D_API GLCloudWidget2D : public QOpenGLWidget {
 
  protected:
   bool right_to_left_{false}, bottom_to_top_{false};
+  bool enable_paint_trace_{false};
 
  protected:
   QBrush brsh_background_;

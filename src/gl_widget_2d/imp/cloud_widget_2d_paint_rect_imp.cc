@@ -55,6 +55,9 @@ void CloudWidget2DPaintRectImp::paint(QPainter* painter, QPaintEvent* /*event*/)
 mouse_trace_t CloudWidget2DPaintRectImp::mouseTrace(const QPoint& /*pos*/) {
   return mouse_trace_t();
 }
+QPointF CloudWidget2DPaintRectImp::lg_pt_to_phy_pt(const QPointF& /*pt*/) const {
+  return QPointF();
+}
 
 void CloudWidget2DPaintRectImp::process_widget_resize(QSize size) {
   QRect rect(QPoint(0, 0), size);

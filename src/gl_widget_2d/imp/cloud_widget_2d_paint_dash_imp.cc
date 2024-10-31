@@ -6,6 +6,7 @@
 
 #include "3rd_utils.h"
 
+#include <qpoint.h>
 #include "cloud_widget_2d_paint_dash_imp.h"
 #include "gl_widget_2d/gl_cloud_widget_2d.h"
 
@@ -34,6 +35,9 @@ mouse_trace_t CloudWidget2DPaintDashImp::mouseTrace(const QPoint&) {
   return mouse_trace_t();
 }
 void CloudWidget2DPaintDashImp::process_widget_resize(QSize) {}
+QPointF CloudWidget2DPaintDashImp::lg_pt_to_phy_pt(const QPointF& /*pt*/) const {
+  return QPointF();
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 
