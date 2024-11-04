@@ -32,6 +32,7 @@ class GL_WIDGET_2D_API CloudWidget2DPaintPoints : public CloudWidget2DPaintInter
   ~CloudWidget2DPaintPoints() override;
 
   void setData(const std::vector<point_double_t>& pts);
+  void setData(std::vector<point_double_t>&& pts);
   void setPhyPointSize(double size);
 };
 

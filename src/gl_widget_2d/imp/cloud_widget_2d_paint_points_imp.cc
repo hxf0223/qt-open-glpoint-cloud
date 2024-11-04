@@ -22,6 +22,14 @@ void CloudWidget2DPaintPointsImp::setData(const std::vector<point_double_t>& pts
   const auto rect = widget_->paint_area_;
   update_phy_points(rect);
 }
+void CloudWidget2DPaintPointsImp::setData(std::vector<point_double_t>&& pts) {
+  CHECK2(widget_, "widget_ is nullptr");
+  phy_pts_.resize(pts.size());
+  pts_ = std::move(pts);
+
+  const auto rect = widget_->paint_area_;
+  update_phy_points(rect);
+}
 void CloudWidget2DPaintPointsImp::setPhyPointSize(double size) {
   pt_phy_size_ = size;
 }

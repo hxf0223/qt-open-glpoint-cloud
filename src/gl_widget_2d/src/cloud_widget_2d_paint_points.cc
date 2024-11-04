@@ -26,6 +26,11 @@ void CloudWidget2DPaintPoints::setData(const std::vector<point_double_t>& pts) {
   CHECK2(impl, "impl is nullptr");
   impl->setData(pts);
 }
+void CloudWidget2DPaintPoints::setData(std::vector<point_double_t>&& pts) {
+  auto* impl = dynamic_cast<CloudWidget2DPaintPointsImp*>(impl_);
+  CHECK2(impl, "impl is nullptr");
+  impl->setData(std::forward<std::vector<point_double_t>>(pts));
+}
 void CloudWidget2DPaintPoints::setPhyPointSize(double size) {
   auto* impl = dynamic_cast<CloudWidget2DPaintPointsImp*>(impl_);
   CHECK2(impl, "impl is nullptr");

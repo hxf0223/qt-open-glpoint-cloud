@@ -22,6 +22,7 @@ class CloudWidget2DPaintPointsImp : public CloudWidget2DPaintInterfaceImp {
   virtual ~CloudWidget2DPaintPointsImp() = default;
 
   void setData(const std::vector<point_double_t>& pts);
+  void setData(std::vector<point_double_t>&& pts);
   void setPhyPointSize(double size);
 
   void paint(QPainter* painter, QPaintEvent* event) override;

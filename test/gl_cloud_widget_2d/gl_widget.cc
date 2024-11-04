@@ -70,7 +70,7 @@ void GLWidget::init_points() {
   const auto rng_maxy = std::max_element(points.begin(), points.end(), predy)->y_;
 
   paint_points_->setRange(rng_minx, rng_maxx, rng_miny, rng_maxy);
-  paint_points_->setData(points);
+  paint_points_->setData(std::move(points));
 
   paint_dash_line_->setRange(rng_minx, rng_maxx, rng_miny, rng_maxy);
   paint_dash_line_->setY((rng_miny + rng_maxy) / 4);
