@@ -10,9 +10,10 @@ using namespace test::gl_painter;
 
 MainWindow::MainWindow() {
   setWindowTitle(tr("2D Painting on Native and OpenGL Widgets"));
+  setMinimumSize(1024, 640);
 
   glcw_2d_ = new GLWidget(this);
-  glcw_2d_->setMargin(100, 60, 100, 60);
+  glcw_2d_->setMargin(80, 40, 80, 40);
 
   auto* layout = new QGridLayout;
   layout->setContentsMargins(QMargins(0, 0, 0, 0));
@@ -23,7 +24,7 @@ MainWindow::MainWindow() {
 
   QTimer* timer = new QTimer(this);
   connect(timer, &QTimer::timeout, glcw_2d_, &GLCloudWidget2D::animate);
-  timer->start(30);
+  timer->start(300);
 }
 
 void MainWindow::showEvent(QShowEvent* event) {
