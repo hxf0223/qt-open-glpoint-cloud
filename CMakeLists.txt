@@ -15,11 +15,9 @@ if(NOT CMAKE_CONFIGURATION_TYPES)
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release")
 endif()
 
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE
-    Release
-    CACHE STRING "Release" FORCE)
-endif()
+#if(NOT CMAKE_BUILD_TYPE)
+#  set(CMAKE_BUILD_TYPE Release CACHE STRING "Release" FORCE)
+#endif()
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
   add_definitions(-DSPDLOG_WCHAR_TO_UTF8_SUPPORT) # VS 输出窗口支持 UTF8
@@ -48,19 +46,12 @@ endif()
 # /DAPL_CORE_UWP  /Zc:inline /fp:precise /DWIN32_LEAN_AND_MEAN /DNOGDI /DWIN32
 # /D_WINDOWS /D_USE_MATH_DEFINES /utf-8")
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-  if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    list(APPEND CMAKE_PREFIX_PATH "D:/dev_libs/release")
-  else()
-    list(APPEND CMAKE_PREFIX_PATH "D:/dev_libs/debug")
-  endif()
-
-  # list(APPEND CMAKE_PREFIX_PATH "D:/dev_libs/pcl_1.14.1")
-  # list(APPEND CMAKE_PREFIX_PATH "D:/dev_libs/pcl_1.14.1/3rdParty/Boost")
+  list(APPEND CMAKE_PREFIX_PATH "D:/dev_libs/boost/lib64-msvc-14.3/cmake")
   list(APPEND CMAKE_PREFIX_PATH "D:/dev_libs/opencv/x64/vc16/lib")
-  list(APPEND CMAKE_PREFIX_PATH "D:/dev_libs/oneAPI/tbb/latest/lib")
+  list(APPEND CMAKE_PREFIX_PATH "D:/dev_libs/oneAPI/tbb/latest/lib/cmake")
 endif()
 
-if(MSVC)
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
   if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /O2 /Ox /Ot /Qpar /Gy /Gw /GF")
   endif()
@@ -93,24 +84,6 @@ find_package(OpenCV CONFIG REQUIRED)
 message(STATUS "OpenCV lib dirs: ${OpenCV_LIB_DIRS}")
 message(STATUS "OpenCV include dirs: ${OpenCV_INCLUDE_DIRS}")
 message(STATUS "OpenCV libraries: ${OpenCV_LIBS}\n")
-
-option(ENABLE_PCL "Enable PCL" OFF)
-set(PACKAGE_PCL_FOUND OFF)
-
-if(ENABLE_PCL)
-  find_package(PCL)
-
-  if(NOT PCL_FOUND)
-    message(FATAL_ERROR "PCL not found.")
-    set(PACKAGE_PCL_FOUND ON)
-  else()
-    set(PACKAGE_PCL_FOUND ON)
-    add_definitions(${PCL_DEFINITIONS})
-    message(STATUS "PCL libs: ${PCL_LIBRARIES}\n")
-    message(STATUS "PCL definitions: ${PCL_DEFINITIONS}")
-    message(STATUS "PCL include dirs: ${PCL_INCLUDE_DIRS}\n")
-  endif()
-endif(ENABLE_PCL)
 
 # option(ENABLE_TBB "Enable intel TBB" OFF)
 find_package(TBB CONFIG REQUIRED)

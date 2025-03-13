@@ -14,25 +14,25 @@ OpenGLWidget::OpenGLWidget(QWidget* parent) : QOpenGLWidget(parent), QOpenGLFunc
   MidMousePress = false;
 
   // 加载点云数据
-  pointData = read_csv_data(":/pointCloud/csv/test.csv");
+  point_data_ = read_csv_data(":/pointCloud/csv/test.csv");
 }
 
 OpenGLWidget::~OpenGLWidget() {
   // 上下文绑定
   makeCurrent();
 
-  // 释放从GPU内存中分配的缓冲对象，避免内存泄露
-  glDeleteBuffers(1, &VBO_MeshLine);
-  glDeleteVertexArrays(1, &VAO_MeshLine);
-  glDeleteBuffers(1, &VBO_Axis);
-  glDeleteVertexArrays(1, &VAO_Axis);
-  glDeleteBuffers(1, &VBO_Point);
-  glDeleteVertexArrays(1, &VAO_Point);
+  // 释放从 GPU 内存中分配的缓冲对象，避免内存泄露
+  glDeleteBuffers(1, &VBO_MeshLine_);
+  glDeleteVertexArrays(1, &VAO_MeshLine_);
+  glDeleteBuffers(1, &VBO_Axis_);
+  glDeleteVertexArrays(1, &VAO_Axis_);
+  glDeleteBuffers(1, &VBO_Point_);
+  glDeleteVertexArrays(1, &VAO_Point_);
 
   // 释放shader
-  shaderProgram_mesh.release();
-  shaderProgram_axis.release();
-  shaderProgram_point.release();
+  shaderProgram_mesh_.release();
+  shaderProgram_axis_.release();
+  shaderProgram_point_.release();
 
   // 上下文解绑
   doneCurrent();
@@ -108,19 +108,19 @@ void OpenGLWidget::initializeGL() {
   glEnable(GL_DEPTH_TEST);
 
   // link meshline shaders
-  shaderProgram_mesh.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shader/shader_mesh.vs");
-  shaderProgram_mesh.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shader/shader_mesh.fs");
-  shaderProgram_mesh.link();
+  shaderProgram_mesh_.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shader/shader_mesh.vs");
+  shaderProgram_mesh_.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shader/shader_mesh.fs");
+  shaderProgram_mesh_.link();
 
   // link coordinate axis shaders
-  shaderProgram_axis.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shader/shader_axis.vs");
-  shaderProgram_axis.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shader/shader_axis.fs");
-  shaderProgram_axis.link();
+  shaderProgram_axis_.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shader/shader_axis.vs");
+  shaderProgram_axis_.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shader/shader_axis.fs");
+  shaderProgram_axis_.link();
 
   // link pointcloud shaders
-  shaderProgram_point.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shader/shader_point.vs");
-  shaderProgram_point.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shader/shader_point.fs");
-  shaderProgram_point.link();
+  shaderProgram_point_.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shader/shader_point.vs");
+  shaderProgram_point_.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shader/shader_point.fs");
+  shaderProgram_point_.link();
 
   // build meshline
   num_vertex_ = buildMeshline(1.0, 10);
@@ -129,7 +129,7 @@ void OpenGLWidget::initializeGL() {
   buildCooraxis(1.0);
 
   // build point
-  num_points_ = buildPointdata(pointData);
+  num_points_ = buildPointdata(point_data_);
 }
 
 // 设置OpenGL视口，调整窗口大小
@@ -163,34 +163,34 @@ void OpenGLWidget::paintGL() {
   model.rotate(rotate_z_, 0.0, 0.0, 1.0);
 
   // 绑定变换矩阵
-  shaderProgram_mesh.bind();
-  shaderProgram_mesh.setUniformValue("projection", projection);
-  shaderProgram_mesh.setUniformValue("view", view);
-  shaderProgram_mesh.setUniformValue("model", model);
-  shaderProgram_axis.bind();
-  shaderProgram_axis.setUniformValue("projection", projection);
-  shaderProgram_axis.setUniformValue("view", view);
-  shaderProgram_axis.setUniformValue("model", model);
-  shaderProgram_point.bind();
-  shaderProgram_point.setUniformValue("projection", projection);
-  shaderProgram_point.setUniformValue("view", view);
-  shaderProgram_point.setUniformValue("model", model);
+  shaderProgram_mesh_.bind();
+  shaderProgram_mesh_.setUniformValue("projection", projection);
+  shaderProgram_mesh_.setUniformValue("view", view);
+  shaderProgram_mesh_.setUniformValue("model", model);
+  shaderProgram_axis_.bind();
+  shaderProgram_axis_.setUniformValue("projection", projection);
+  shaderProgram_axis_.setUniformValue("view", view);
+  shaderProgram_axis_.setUniformValue("model", model);
+  shaderProgram_point_.bind();
+  shaderProgram_point_.setUniformValue("projection", projection);
+  shaderProgram_point_.setUniformValue("view", view);
+  shaderProgram_point_.setUniformValue("model", model);
 
   // draw meshline
-  shaderProgram_mesh.bind();
-  glBindVertexArray(VAO_MeshLine);
+  shaderProgram_mesh_.bind();
+  glBindVertexArray(VAO_MeshLine_);
   glLineWidth(1.0f);
   glDrawArrays(GL_LINES, 0, num_vertex_);
 
   // draw axis
-  shaderProgram_axis.bind();
-  glBindVertexArray(VAO_Axis);
+  shaderProgram_axis_.bind();
+  glBindVertexArray(VAO_Axis_);
   glLineWidth(5.0f);
   glDrawArrays(GL_LINES, 0, 6);
 
   // draw point
-  shaderProgram_point.bind();
-  glBindVertexArray(VAO_Point);
+  shaderProgram_point_.bind();
+  glBindVertexArray(VAO_Point_);
   glPointSize(1.0f);
   glDrawArrays(GL_POINTS, 0, num_points_);
 }
@@ -226,12 +226,12 @@ unsigned int OpenGLWidget::buildMeshline(float size, int count) {
   }
 
   // 创建VAO/VBO
-  glGenVertexArrays(1, &VAO_MeshLine);
-  glGenBuffers(1, &VBO_MeshLine);
+  glGenVertexArrays(1, &VAO_MeshLine_);
+  glGenBuffers(1, &VBO_MeshLine_);
 
   // 绑定VAO/VBO
-  glBindVertexArray(VAO_MeshLine);
-  glBindBuffer(GL_ARRAY_BUFFER, VBO_MeshLine);
+  glBindVertexArray(VAO_MeshLine_);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO_MeshLine_);
   glBufferData(GL_ARRAY_BUFFER, mesh_vertexs.size() * sizeof(float), &mesh_vertexs[0], GL_STATIC_DRAW);
 
   // 指定顶点数组对象的顶点属性数据 - 索引、大小、类型、归一化、连续点字节偏移量、顶点缓冲对象首个属性起始位置
@@ -272,13 +272,13 @@ void OpenGLWidget::buildCooraxis(float length) {
   axis_vertexs[32] = length;
   axis_vertexs[35] = 1.0;
 
-  // 创建VAO/VBO
-  glGenVertexArrays(1, &VAO_Axis);
-  glGenBuffers(1, &VBO_Axis);
+  // 创建 VAO / VBO
+  glGenVertexArrays(1, &VAO_Axis_);
+  glGenBuffers(1, &VBO_Axis_);
 
-  // 绑定VAO/VBO
-  glBindVertexArray(VAO_Axis);
-  glBindBuffer(GL_ARRAY_BUFFER, VBO_Axis);
+  // 绑定 VAO / VBO
+  glBindVertexArray(VAO_Axis_);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO_Axis_);
   glBufferData(GL_ARRAY_BUFFER, axis_vertexs.size() * sizeof(float), &axis_vertexs[0], GL_STATIC_DRAW);
 
   // 指定顶点数组对象的顶点属性数据 - 索引、大小、类型、归一化、连续点字节偏移量、顶点缓冲对象首个属性起始位置
@@ -287,20 +287,20 @@ void OpenGLWidget::buildCooraxis(float length) {
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
 
-  // 解绑VBO/VAO
+  // 解绑 VBO / VAO
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
 }
 
 // 构建点云数据
 unsigned int OpenGLWidget::buildPointdata(std::vector<float>& point_vertexs) {
-  // 创建VAO/VBO
-  glGenVertexArrays(1, &VAO_Point);
-  glGenBuffers(1, &VBO_Point);
+  // 创建 VAO / VBO
+  glGenVertexArrays(1, &VAO_Point_);
+  glGenBuffers(1, &VBO_Point_);
 
-  // 绑定VAO/VBO
-  glBindVertexArray(VAO_Point);
-  glBindBuffer(GL_ARRAY_BUFFER, VBO_Point);
+  // 绑定 VAO / VBO
+  glBindVertexArray(VAO_Point_);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO_Point_);
   glBufferData(GL_ARRAY_BUFFER, point_vertexs.size() * sizeof(float), &point_vertexs[0], GL_STATIC_DRAW);
 
   // 指定顶点数组对象的顶点属性数据 - 索引、大小、类型、归一化、连续点字节偏移量、顶点缓冲对象首个属性起始位置
@@ -309,7 +309,7 @@ unsigned int OpenGLWidget::buildPointdata(std::vector<float>& point_vertexs) {
   glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
 
-  // 解绑VBO/VAO
+  // 解绑 VBO / VAO
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
 

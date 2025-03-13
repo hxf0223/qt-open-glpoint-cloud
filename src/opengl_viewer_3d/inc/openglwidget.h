@@ -29,19 +29,19 @@ class OpenGLWidget : public QOpenGLWidget, QOpenGLFunctions_3_3_Core {
   unsigned int buildPointdata(std::vector<float>& point_vertexs);
 
  private:
-  QOpenGLShaderProgram shaderProgram_mesh;
-  QOpenGLShaderProgram shaderProgram_axis;
-  QOpenGLShaderProgram shaderProgram_point;
-  unsigned int VAO_MeshLine;
-  unsigned int VBO_MeshLine;
-  unsigned int VAO_Axis;
-  unsigned int VBO_Axis;
-  unsigned int VAO_Point;
-  unsigned int VBO_Point;
+  QOpenGLShaderProgram shaderProgram_mesh_;
+  QOpenGLShaderProgram shaderProgram_axis_;
+  QOpenGLShaderProgram shaderProgram_point_;
+  unsigned int VAO_MeshLine_;
+  unsigned int VBO_MeshLine_;
+  unsigned int VAO_Axis_;
+  unsigned int VBO_Axis_;
+  unsigned int VAO_Point_;
+  unsigned int VBO_Point_;
 
   unsigned int num_vertex_;
   unsigned int num_points_;
-  std::vector<float> pointData;
+  std::vector<float> point_data_;
 
   float rotate_x_{}, rotate_z_{};
   float trans_x_{}, trans_y_{};
