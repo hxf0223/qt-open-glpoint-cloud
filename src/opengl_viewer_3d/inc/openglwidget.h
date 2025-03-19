@@ -13,9 +13,9 @@ class OpenGLWidget : public QOpenGLWidget, QOpenGLFunctions_3_3_Core {
   ~OpenGLWidget();
 
  protected:
-  virtual void initializeGL() override;
-  virtual void resizeGL(int w, int h) override;
-  virtual void paintGL() override;
+  void initializeGL() override;
+  void resizeGL(int w, int h) override;
+  void paintGL() override;
 
  protected:
   void mouseMoveEvent(QMouseEvent* event) override;

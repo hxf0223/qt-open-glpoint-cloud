@@ -1,6 +1,9 @@
 #pragma once
 
-#include "head.h"
+#include <QObject>
+#include <QtCore>
+#include <QtGui>
+#include <QtWidgets>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

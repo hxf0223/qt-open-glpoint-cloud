@@ -1,6 +1,10 @@
-#include "openglwidget.h"
+#include <QObject>
+#include <QtCore>
+#include <QtGui>
+#include <QtWidgets>
+
 #include "csv_reader.h"
-#include "head.h"
+#include "openglwidget.h"
 
 OpenGLWidget::OpenGLWidget(QWidget* parent) : QOpenGLWidget(parent), QOpenGLFunctions_3_3_Core() {
   // 视角控制初始化
@@ -29,7 +33,7 @@ OpenGLWidget::~OpenGLWidget() {
   glDeleteBuffers(1, &VBO_Point_);
   glDeleteVertexArrays(1, &VAO_Point_);
 
-  // 释放shader
+  // 释放 shader
   shaderProgram_mesh_.release();
   shaderProgram_axis_.release();
   shaderProgram_point_.release();
@@ -84,6 +88,7 @@ void OpenGLWidget::mouseMoveEvent(QMouseEvent* event) {
     trans_x_ = trans_x_ + 0.01 * deltaPos.x();
     trans_y_ = trans_y_ - 0.01 * deltaPos.y();
   }
+
   update();
 }
 
@@ -97,6 +102,7 @@ void OpenGLWidget::wheelEvent(QWheelEvent* event) {
   if (zoom_ratio_ > 100.0f) {
     zoom_ratio_ = 100.0f;
   }
+
   update();
 }
 
@@ -201,9 +207,9 @@ unsigned int OpenGLWidget::buildMeshline(float size, int count) {
   std::vector<float> mesh_vertexs;
 
   // 计算起始位置
-  float start = count * (size / 2);
+  const float start = count * (size / 2);
   float posX = start, posZ = start;
-  for (int i = 0; i <= count; ++i) {
+  for (int i = 0; i <= count; i++) {
     // 横向
     mesh_vertexs.push_back(posX);
     mesh_vertexs.push_back(start);
@@ -243,7 +249,7 @@ unsigned int OpenGLWidget::buildMeshline(float size, int count) {
   glBindVertexArray(0);
 
   // 计算顶点数量
-  unsigned int vertex_count = (unsigned int)(mesh_vertexs.size() / 3);
+  const auto vertex_count = (unsigned int)(mesh_vertexs.size() / 3);
   return vertex_count;
 }
 
@@ -314,6 +320,6 @@ unsigned int OpenGLWidget::buildPointdata(std::vector<float>& point_vertexs) {
   glBindVertexArray(0);
 
   // 计算顶点数量
-  unsigned point_count = (unsigned int)(point_vertexs.size() / 4);
+  const auto point_count = (unsigned int)(point_vertexs.size() / 4);
   return point_count;
 }

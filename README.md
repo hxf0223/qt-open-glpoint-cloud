@@ -6,6 +6,8 @@
 * [Qt/OpenGL tutorials](/doc/OpenGLTutorial.pdf)
 * [github -- OpenGL + Qt Tutorial](https://github.com/ghorwin/OpenGLWithQt-Tutorial/tree/master)
 * [github -- 3D Forest](https://github.com/VUKOZ-OEL/3d-forest/tree/main)
+* [github -- show-point-cloud-and-stl](https://github.com/Lehamber/show-point-cloud-and-stl)
+* [github -- Large Point Cloud Rendering](https://github.com/AlfonsoLRz/PointCloudRendering)
 * [ControlPointsTransformAndEditing](https://github.com/giraphics/ControlPointsTransformAndEditing/tree/master)
 
 ## 问题 ##
